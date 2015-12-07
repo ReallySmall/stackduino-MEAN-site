@@ -1,0 +1,16 @@
+<div class="content col-md-12">      
+    <h1>Gallery</h1>
+    <p>Images created with Stackduino controllers. #Stackduino on Flickr.</p>  
+	<div class="row">
+		<div data-masonry-images data-image-items="images" data-new-item-count="newItemCount"></div>
+	</div>
+	<div class="row">
+		<button type="button" data-ng-hide="loading || page >= maxPages" class="btn btn-primary center-block" data-ng-click="moreResults()">
+			Show more
+		</button>
+		<p class="loading-content" data-ng-show="loading">
+			<span class="fa fa-refresh fa-spin center-block"></span>
+			<span class="visually-hidden">Loading content</span>
+		</p>				
+	</div>
+</div>

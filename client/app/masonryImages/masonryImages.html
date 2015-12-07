@@ -1,0 +1,15 @@
+<ul class="plain">
+	<li data-ng-repeat="image in images" class="gallery-image col-sm-4">
+		<a href="http://flickr.com/photo.gne?id={{image.id}}" title="View on Flickr">
+		<figure class="panel">
+			<div class="img-placeholder" style="padding-bottom: {{(image.height_n / image.width_n) * 100}}%">
+				<img data-ng-src="https://farm{{image.farm}}.staticflickr.com/{{image.server}}/{{image.id}}_{{image.secret}}_z.jpg" alt="{{image.title}} by {{image.ownername}} on Flickr"/>
+			</div>
+			<figcaption>
+				<p class="plain">{{image.title}}</p>
+				<p class="plain">By {{image.ownername}}</p>
+			</figcaption>
+		</figure>
+		</a>
+	</li>
+</ul>
