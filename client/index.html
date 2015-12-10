@@ -13,6 +13,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
+      <link rel="stylesheet" href="bower_components/flexslider/flexslider.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -27,77 +28,86 @@
     <![endif]-->
     <navbar></navbar>
 
-    <header id="masthead" class="site-header" role="banner">
-      <div class="container">
-        <div class="row">
-          <div id="logo" class="site-branding col-sm-8">
-            <a href="/" class="home-link" title="Home">
-              <p class="animated-site-logo js-animate-logo">
-                <span class="fa fa-pause"></span>
-                <span class="fa fa-camera"></span>
-              </p>
-              <div class="site-descriptor">
-                <h1 id="site-title">
-                  {{ siteTitle }}
-                </h1>
-                <p class="plain site-slogan">{{ siteDescription }}</p>
-              </div>
-            </a>
+    <div data-ng-controller="MainCtrl">
+
+      <header id="masthead" class="site-header" role="banner">
+        <div class="container">
+          <div class="row">
+            <div id="logo" class="site-branding col-sm-8">
+              <a href="/" class="home-link" title="Home">
+                <p class="animated-site-logo js-animate-logo">
+                  <span class="fa fa-pause"></span>
+                  <span class="fa fa-camera"></span>
+                </p>
+                <div class="site-descriptor">
+                  <h1 id="site-title">
+                    {{ siteTitle }}
+                  </h1>
+                  <p class="plain site-slogan">{{ siteDescription }}</p>
+                </div>
+              </a>
+            </div>
+            <div class="social-links col-sm-4">
+              <ul class="plain">
+                <li data-ng-repeat="link in socialLinks">
+                  <a href="{{link.href}}" title="{{link.title}}">
+                    <span class="fa fa-{{link.icon}}">
+                      <span class="visually-hidden">{{link.title}}</span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div class="social-links col-sm-4">
-            <ul class="plain">
-              <li data-ng-repeat="link in socialLinks">
-                <a href="{{link.href}}" title="{{link.title}}">
-                  <span class="fa fa-{{link.icon}}">
-                    <span class="visually-hidden">{{link.title}}</span>
-                  </span>
+        </div>
+      </header>
+
+      <!-- Home page feature images -->
+      <section data-ng-show="isCurrentPath('/')" class="home-feature-images">
+        <!--div class="container">
+          <div class="row"-->
+            <div data-flex-slider="featureImages" data-show-title="false" data-slide="true"></div>
+          <!--/div>
+        </div-->
+      </section>
+
+      <!-- Main horizontal menu bar -->
+      <section id="preface-area">
+        <div class="container">
+          <nav class="row">
+            <ul>
+              <li data-ng-repeat="item in menuItems" data-ng-class="{active: isCurrentPath(item.href)}" class="preface-block col-sm-4 block-{{$index + 1}}">
+                <a href="{{item.href}}">
+                  <h2><span class="fa fa-{{item.icon}}"></span>{{item.title}}</h2>
                 </a>
               </li>
             </ul>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- Home page feature images -->
-    <section data-ng-show="isCurrentPath('/')" class="home-feature-images">
-      <!--div class="container">
-        <div class="row"-->
-          <div data-flex-slider="featureImages" data-show-title="false" data-slide="true"></div>
-        <!--/div>
-      </div-->
-    </section>
-
-    <!-- Main horizontal menu bar -->
-    <section id="preface-area">
-      <div class="container">
-        <nav class="row">
-        </nav>
-      </div>
-    </section>
-
-    <!-- Breadcrumbs -->
-    <section data-ng-hide="isCurrentPath('/')">
-      <div class="container breadcrumb-nav">
-        <div class="row">
-          <nav class="page-utils col-md-12">
-            <ol class="ab-nav breadcrumb">
-              <li data-ng-repeat="breadcrumb in breadcrumbs.get() track by breadcrumb.path" data-ng-class="{ active: $last }">
-                <a data-ng-if="!$last" data-ng-href="{{ breadcrumb.path }}" data-ng-bind="breadcrumb.label" class="margin-right-xs"></a>
-                <span data-ng-if="$last" data-ng-bind="breadcrumb.label"></span>
-              </li>
-            </ol>
           </nav>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Page partial container -->
-    <section data-ng-class="{ 'home' : isCurrentPath('/') }">
-      <div class="container">
-        <div ui-view="" id="main-content" class="row" autoscroll="true"></div>
-      </div>
-    </section>
+      <!-- Breadcrumbs -->
+      <section data-ng-hide="isCurrentPath('/')">
+        <div class="container breadcrumb-nav">
+          <div class="row">
+            <nav class="page-utils col-md-12">
+              <ol class="ab-nav breadcrumb">
+                <li data-ng-repeat="breadcrumb in breadcrumbs.get() track by breadcrumb.path" data-ng-class="{ active: $last }">
+                  <a data-ng-if="!$last" data-ng-href="{{ breadcrumb.path }}" data-ng-bind="breadcrumb.label" class="margin-right-xs"></a>
+                  <span data-ng-if="$last" data-ng-bind="breadcrumb.label"></span>
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </section>
+
+      <!-- Page partial container -->
+      <section data-ng-class="{ 'home' : isCurrentPath('/') }">
+        <div class="container">
+          <div ui-view="" id="main-content" class="row" autoscroll="true"></div>
+        </div>
+      </section>
 
       <!-- Footer -->
       <footer id="colophon" class="site-footer" role="contentinfo">
@@ -116,6 +126,8 @@
           </div>
         </div>
       </footer>
+
+    </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
@@ -145,6 +157,7 @@
       <script src="bower_components/angular-validation-match/dist/angular-validation-match.min.js"></script>
       <script src="bower_components/isotope/dist/isotope.pkgd.min.js"></script>
       <script src="bower_components/angular-utils-ui-breadcrumbs/uiBreadcrumbs.js"></script>
+      <script src="bower_components/flexslider/jquery.flexslider.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js(.tmp) app/app.js -->
@@ -153,7 +166,7 @@
       <script src="app/admin/admin.module.js"></script>
       <script src="components/auth/auth.module.js"></script>
       <script src="components/util/util.module.js"></script>
-      <script src="app/getFlickrImages/getFlickrImages.service.js"></script>
+      <script src="app/getSettings/getSettings.service.js"></script>
       <script src="app/admin/admin.controller.js"></script>
       <script src="app/account/account.js"></script>
       <script src="app/admin/admin.router.js"></script>
@@ -162,12 +175,17 @@
       <script src="app/boards/boards.js"></script>
       <script src="app/build/build.controller.js"></script>
       <script src="app/build/build.js"></script>
+      <script src="app/flexSlider/flexSlider.directive.js"></script>
       <script src="app/gallery/gallery.controller.js"></script>
       <script src="app/gallery/gallery.js"></script>
       <script src="app/getApiRoots/getApiRoots.service.js"></script>
+      <script src="app/getArticles/getArticles.service.js"></script>
+      <script src="app/getFlickrImages/getFlickrImages.service.js"></script>
       <script src="app/account/login/login.controller.js"></script>
+      <script src="app/getWrapperContent/getWrapperContent.service.js"></script>
+      <script src="app/home/home.controller.js"></script>
+      <script src="app/home/home.js"></script>
       <script src="app/main/main.controller.js"></script>
-      <script src="app/main/main.js"></script>
       <script src="app/masonryImages/masonryImages.directive.js"></script>
       <script src="app/account/settings/settings.controller.js"></script>
       <script src="components/auth/auth.service.js"></script>

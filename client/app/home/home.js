@@ -3,10 +3,10 @@
 angular.module('stackduinoApp')
   .config(function($stateProvider) {
     $stateProvider
-      .state('main', {
+      .state('home', {
         url: '/',
         templateUrl: 'app/main/main.html',
-        controller: 'MainController',
-        controllerAs: 'main'
+        controller: 'HomeCtrl',
+        controllerAs: 'home'
       });
   });

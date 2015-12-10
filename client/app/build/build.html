@@ -1,1 +1,17 @@
-<div>This is the build view.</div>
+<div class="col-md-12">
+	<h2>Latest articles</h2>
+	<ul class="plain">
+		<li data-ng-repeat="article in articles track by $index">
+			<article>
+				<h3>
+					<a href="/{{id}}">{{article[$index].title}}</a>
+				</h3>
+				<ul class="plain tags">
+					<li data-ng-repeat="tag in article[$index].tags">
+						<a href="#" data-ng-click="">{{tag}}</a>
+					</li>
+				</ul>
+			</article>
+		</li>
+	</ul>
+</div>

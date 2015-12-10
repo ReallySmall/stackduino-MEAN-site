@@ -14,7 +14,7 @@ function routerDecorator($stateProvider) {
               (typeof auth === 'string' && Auth.hasRole(auth))) {
               return user;
             }
-            $state.go((user._id) ? 'main' : 'login');
+            $state.go((user._id) ? 'home' : 'login');
             return $q.reject('not authorized');
           });
       };

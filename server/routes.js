@@ -30,6 +30,15 @@ module.exports = function(app) {
     });
   });
 
+  // route to proxy calls to Flickr api
+  app.get('/api/tumblr/', function(req, res){
+    var query = apis.routes.tumblr + 'reallysmall.tumblr.com/posts/text?api_key=' + apis.keys.tumblr.consumer_key;
+    console.log(query);
+    request(query, function(error, response, body) {
+      res.send(body);
+    });
+  });
+
   app.use('/auth', require('./auth'));
 
   // All undefined asset or api routes should return a 404

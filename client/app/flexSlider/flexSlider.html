@@ -1,0 +1,30 @@
+<div class="panel images image-slider" data-ng-show="items.length">
+  <div class="js-flexslider flexslider">
+    <ul class="plain">
+      <li>
+        <a href="#" class="slide-cover slide-cover-left flex-prev">
+          <span class="fa fa-arrow-circle-left"></span>
+          <span class="visually-hidden">Show previous image</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="slide-cover slide-cover-right flex-next">
+          <span class="fa fa-arrow-circle-right"></span>
+          <span class="visually-hidden">Show next image</span>
+        </a>
+      </li>
+    </ul>
+    <ul class="slides plain no-list-style">
+      <li data-ng-repeat="item in items">
+        <a href="http://flickr.com/photo.gne?id={{item.id}}" tabindex="-1">
+          <figure>       
+              <img ng-src="{{ item.href }}" />
+              <figcaption>
+                <p>{{ item.title }}</p>
+              </figcaption>
+          </figure>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

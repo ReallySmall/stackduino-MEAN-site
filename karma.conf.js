@@ -23,6 +23,7 @@ module.exports = function(config) {
       'client/bower_components/angular-validation-match/dist/angular-validation-match.min.js',
       'client/bower_components/isotope/dist/isotope.pkgd.min.js',
       'client/bower_components/angular-utils-ui-breadcrumbs/uiBreadcrumbs.js',
+      'client/bower_components/flexslider/jquery.flexslider.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'client/app/app.js',

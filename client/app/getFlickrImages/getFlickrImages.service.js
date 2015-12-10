@@ -24,7 +24,7 @@ angular.module('stackduinoApp')
     			dataType: 'json',
 	      	url: getApiRoots.flickr + apiArgs.format + '&per_page=' + perPage + '&page=' + page + apiArgs.searchMethod + apiArgs.tags + apiArgs.extras + apiArgs.mode,
 	      	cache: true,
-          timeout: 5000
+          timeout: 10000
 	      });
 	    }
   	};
@@ -38,7 +38,7 @@ angular.module('stackduinoApp')
       		dataType: 'json',
   	      url: getApiRoots.flickr + apiArgs.userId + apiArgs.format + apiArgs.albumMethod + '&photoset_id=' + photoset + apiArgs.extras + apiArgs.mode,
   	      cache: true,
-          timeout: 2000 
+          timeout: 10000 
   	     });
 
   		}
