@@ -5,21 +5,21 @@ angular.module('stackduinoApp')
   .factory("getArticles", function($http, getApiRoots) {
 
     //get all Flickr images tagged with n
-  	var allTaggedWith = {
-	    doRequest: function() {
+  	var posts = {
+	    get: function(blog) {
       	return $http({
       		method:'GET',
-    		dataType: 'json',
-	      	url: getApiRoots.tumblr,
+    		  dataType: 'json',
+	      	url: getApiRoots.tumblr + blog,
 	      	cache: true,
-          	timeout: 10000
+          timeout: 10000
 	      });
 	    }
   	};
 
     return {
-      requestAll: function(perPage, page) { 
-      	return allTaggedWith.doRequest(perPage, page); 
+      requestAll: function(blog) { 
+      	return posts.get(blog); 
       }
     };
 

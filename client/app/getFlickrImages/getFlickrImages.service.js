@@ -11,7 +11,7 @@ angular.module('stackduinoApp')
   		format: '&format=json&nojsoncallback=1',
   		searchMethod: '&method=flickr.photos.search',
   		albumMethod: '&method=flickr.photosets.getPhotos',
-  		tags: '&tag_mode=all&tags=focusstacking,-controller',
+  		tags: '&tag_mode=all&tags=mountain,-controller',
   		extras: '&extras=tags,owner_name,url_n,url_o',
   		mode: '&safe_search=1' 
   	};

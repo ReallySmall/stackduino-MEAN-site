@@ -4,14 +4,14 @@ angular.module('stackduinoApp')
   .factory("getApiRoots", function() {
 
 	var roots = {
-    drupal: "/api/content/",
+    contentful: "/api/contentful/",
     flickr: "/api/flickr/",
     gitHub: "https://api.github.com/repos/reallysmall/",
     tumblr: "/api/tumblr/"
 	};
 
   return {
-    drupal: roots.drupal,
+    contentful: roots.contentful,
     gitHub: roots.gitHub,
     flickr: roots.flickr,
     tumblr: roots.tumblr

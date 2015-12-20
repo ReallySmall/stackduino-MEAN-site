@@ -1,17 +1,32 @@
 <div class="col-md-12">
-	<h2>Latest articles</h2>
-	<ul class="plain">
+	<h2>Build articles</h2>
+	<div class="form-group">
+		<label for="article-filter"><span class="visually-hidden">Filter articles by tag</span></label>
+		<input id="article-filter" type="text" class="form-control" placeholder="Filter articles" />
+	</div>	
+	<ul class="plain articles">
 		<li data-ng-repeat="article in articles track by $index">
 			<article>
 				<h3>
-					<a href="/{{id}}">{{article[$index].title}}</a>
+					<a href="/{{article.id}}">{{article.title}}</a>
 				</h3>
+				<p class="plain article-date">{{article.timestamp * 1000 | date: 'dd MMMM yyyy'}}</p>
+				<p class="summary">{{article.summary}}</p>
 				<ul class="plain tags">
-					<li data-ng-repeat="tag in article[$index].tags">
-						<a href="#" data-ng-click="">{{tag}}</a>
+					<li data-ng-repeat="tag in article.tags">
+						<a href="#" title="Find all articles tagged with {{tag}}" data-ng-click="">
+							<span class="visually-hidden">Find all articles tagged with</span>
+							{{tag}}
+						</a>
 					</li>
 				</ul>
 			</article>
 		</li>
 	</ul>
+</div>
+<div class="row">
+	<p class="loading-content" data-ng-show="loading">
+		<span class="fa fa-refresh fa-spin center-block"></span>
+		<span class="visually-hidden">Loading content</span>
+	</p>				
 </div>

@@ -285,7 +285,8 @@ ul {
   }
   figure {
     position: relative;
-    //max-height: 650px;
+    height: 0;
+    padding-bottom: 60%;
     img {
       -webkit-filter: grayscale(100%);
       -moz-filter: grayscale(100%);
@@ -373,8 +374,8 @@ ul {
 
 .footer {
   padding: 30px 0;
-  margin: 0;
-  border-top: 3px solid $black;
+  margin: 0 !important;
+  border-top: 3px solid $black !important;
   h3 {
     color: whitesmoke;
     padding-left: 15px;
@@ -554,11 +555,37 @@ ul {
   }
 }
 
-.blog-list {
-  margin: 0 0 40px 0 !important;
-  ul {
-    margin: 0 0 20px 0;
-  }
+.articles {
+	li {
+		article {
+			margin: 15px 0;
+			padding: 15px 0;
+			border-top: 1px solid $lightest-grey;
+			.tags {
+				li {
+					display: inline-block;
+					margin-right: 5px;
+					a {
+						font-size: 0.9em;
+						display: block;
+						padding: 3px 6px;
+						border-radius: 5px;
+						background: $lightest-grey;
+						border: 1px solid $lighter-grey;
+						color: $grey;
+						&:hover, &:focus, &:active {
+							text-decoration: underline;
+						}
+					}
+				}
+			}
+		}
+		&:first-child {
+			article {
+				border-top: none;
+			}
+		}
+	}
 }
 
 figure {
