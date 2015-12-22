@@ -8,29 +8,21 @@ angular.module('stackduinoApp')
     $scope.featureImageCount = 5;
     $scope.socialLinks = [];
     $scope.footerLinks = [];
-    $scope.featuresIncTags = '';
-    $scope.featuresExcTags = '';
-    $scope.featuresPhotoset = '';
+    $scope.featuresIncTags = 'feature';
 
     getSettings.getSiteSettings()
       .success(function(data, status, headers) {
 
-        $scope.siteTitle = 'Stackduino';
-        $scope.siteDescription = 'An Arduino compatible focus stacking controller for macro photography';
-
-        $scope.featuresIncTags = 'feature';
-        $scope.featuresExcTags = '';
-        $scope.featuresPhotoset = '72157626574230146';
-
-        getFlickrImages.requestFeatureImages($scope.featuresPhotoset)
+        getFlickrImages.requestFeatureImages()
         .success(function(data, status, headers) {
+
+          console.log(data);
+
           var rawResults = data.photoset.photo;
 
           for(var i = 0, j = 0; i < rawResults.length; i++){
             if(rawResults[i].tags.indexOf($scope.featuresIncTags) >= 0 && rawResults[i].width_o >= 1024 && rawResults[i].height_o / rawResults[i].width_o >= 0.66){ //if tagged as a feature
               //add it to the features array
-                        	console.log(rawResults[i].height_o + ' + ' + rawResults[i].width_o);
-
               $scope.featureImages.push(rawResults[i]);
               if(++j >= $scope.featureImageCount){
                 break;

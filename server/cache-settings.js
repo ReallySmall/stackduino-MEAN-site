@@ -5,7 +5,10 @@ var cacheSettings = module.exports = {
     tumblr: {
       articles: 1000 * 60 * 60, // an hour
     },
-    flickr: 1000 * 60 * 30, // half an hour
+    flickr: {
+      gallery: 1000 * 60 * 90, // an hour and a half
+      features: 1000 * 60 * 240 // four hours
+    },
     contentful: {
       pageWrapper: 1000 * 60 * 300, // five hours
       homePage: 1000 * 60 * 120, // two hours
@@ -16,7 +19,10 @@ var cacheSettings = module.exports = {
     tumblr: {
       articles: ''
     },
-    flickr: '',
+    flickr: {
+      gallery: '',
+      features: ''
+    },    
     contentful: {
       pageWrapper: '',
       homePage: '',
@@ -27,7 +33,10 @@ var cacheSettings = module.exports = {
     tumblr: {
       articles: './content-cache/tumblr-reallysmall.json'
     },
-    flickr: './content-cache/flickr-reallysmall.json',
+    flickr: {
+      gallery: './content-cache/flickr-reallysmall-gallery.json',
+      features: './content-cache/flickr-reallysmall-features.json' 
+    },
     contentful: {
       pageWrapper: './content-cache/contentful-page-wrapper.json',
       homePage: './content-cache/contentful-home-page.json',

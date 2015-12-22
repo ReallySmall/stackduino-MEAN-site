@@ -63,7 +63,7 @@
       </header>
 
       <!-- Home page feature images -->
-      <section data-ng-show="isCurrentPath('/')" class="home-feature-images">
+      <section data-ng-controller="HomeCtrl" data-ng-show="isCurrentPath('/')" class="home-feature-images">
         <!--div class="container">
           <div class="row"-->
             <div data-flex-slider="featureImages" data-show-title="false" data-slide="true"></div>

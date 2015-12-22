@@ -12,6 +12,7 @@ var request = require("request");
 var Tumburglar = require('tumburglar');
 var apis = require('./apis');
 var cacheSettings = require('./cache-settings');
+var externalApis = require('./external-apis');
 var apicache = require('apicache').options({ debug: true }).middleware;
 var jsonfile = require('jsonfile');
 var util = require('util');
@@ -35,15 +36,15 @@ app.use(bodyParser.json());
   // route to proxy calls to contentful api to get items of content type board
   app.get('/api/contentful/type/boards', function(req, res){
 
-    if(new Date() - cacheSettings.lastUpdated.contentful.boards > cacheSettings.timeOut.contentful.boards){
+    if(new Date() - externalApis.contentful.boards.lastUpdated > externalApis.contentful.boards.timeOut){
 
       console.log('Contentful fetched from api');
 
       var query = apis.routes.contentful.boards;
       console.log(query);
       request(query, function(error, response, body) {
-        cacheSettings.lastUpdated.contentful.boards = new Date();
-        cacheSettings.writeFile(cacheSettings.file.contentful.boards, body);
+        externalApis.contentful.boards.lastUpdated = new Date();
+        cacheSettings.writeFile(externalApis.contentful.boards.file, body);
         res.send(body);
       });
 
@@ -65,13 +66,61 @@ app.use(bodyParser.json());
     });
   });
 
-  // route to proxy calls to Flickr api
-  app.get('/api/flickr/:args', function(req, res){
-    var query = apis.routes.flickr + '?api_key=' + apis.keys.flickr.api_key + req.params.args;
+  // route to proxy calls to Flickr api for homepage features
+  app.get('/api/flickr/features', function(req, res){
+
+    if(new Date() - externalApis.flickr.features.lastUpdated > externalApis.flickr.features.timeOut){
+
+    var query = apis.routes.flickr;
+    query += '?api_key=' + apis.keys.flickr.api_key;
+    query += '&method=flickr.photosets.getPhotos'
+    query += '&photoset_id=72157626574230146';
+    query += '&format=json&nojsoncallback=1&extras=tags,owner_name,url_n,url_o'
     console.log(query);
     request(query, function(error, response, body) {
+      externalApis.flickr.features.lastUpdated = new Date();
+      externalApis.writeFile(externalApis.flickr.features.file, body);
       res.send(body);
     });
+
+    } else {
+
+      console.log('Flickr features fetched from file cache');
+      externalApis.readFile(externalApis.flickr.features.file, res);
+
+    }
+
+  });
+
+  // route to proxy calls to Flickr api for gallery
+  app.get('/api/flickr/gallery', function(req, res){
+
+    if(new Date() - externalApis.flickr.gallery.lastUpdated > externalApis.flickr.gallery.timeOut){
+
+      console.log('Flickr gallery fetching from api');
+      var query = apis.routes.flickr;
+      query += '?api_key=' + apis.keys.flickr.api_key;
+      query += '&tags=photomacrography,-controller',
+      query += '&format=json&nojsoncallback=1&per_page=150&page=1&method=flickr.photos.search&tag_mode=all&extras=tags,owner_name,url_n,url_o&safe_search=1'
+      request(query, function(error, response, body) {
+        console.log(body);
+        //if(!response){
+          externalApis.flickr.gallery.lastUpdated = new Date();
+          externalApis.writeFile(externalApis.flickr.gallery.file, body);
+          res.send(body);
+        //} else {
+          //console.log('Flickr gallery fetched from file cache - api request failed');
+          //externalApis.readFile(externalApis.flickr.gallery.file, res);          
+        //}
+      });
+
+    } else {
+
+      console.log('Flickr gallery fetched from file cache');
+      externalApis.readFile(externalApis.flickr.gallery.file, res);
+
+    }
+
   });
 
   // route to proxy calls to Tumblr api
@@ -101,8 +150,10 @@ app.use(bodyParser.json());
       });
 
     } else {
+
       console.log('Tumblr fetched from file cache');
-      cacheSettings.readFile(cacheSettings.file.tumblr.articles, res);
+      cacheSettings.readFile(cacheSettings.file.flickr.gallery, res);
+
     }
 
   });
