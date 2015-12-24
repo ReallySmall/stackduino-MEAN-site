@@ -38,19 +38,32 @@ app.use(bodyParser.json());
 
     if(new Date() - externalApis.contentful.boards.lastUpdated > externalApis.contentful.boards.timeOut){
 
-      console.log('Contentful fetched from api');
+      console.log('Contentful boards fetching from api');
 
       var query = apis.routes.contentful.boards;
-      console.log(query);
-      request(query, function(error, response, body) {
-        externalApis.contentful.boards.lastUpdated = new Date();
-        cacheSettings.writeFile(externalApis.contentful.boards.file, body);
-        res.send(body);
+
+      var requestOpts = {
+        url: query,
+        method: "GET",
+        gzip: true,
+        timeout: 3000
+      };
+
+      request(requestOpts, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          externalApis.contentful.boards.lastUpdated = new Date();
+          externalApis.writeFile(externalApis.contentful.boards.file, body);
+          res.send(body);
+        } else {
+          console.log(error);
+          console.log('Contentful boards fetched from file cache - api request failed');
+          externalApis.readFile(externalApis.contentful.boards.file, res);          
+        }
       });
 
     } else {
 
-      console.log('Contentful fetched from file cache');
+      console.log('Contentful boards fetched from file cache');
       cacheSettings.readFile(cacheSettings.file.contentful.boards, res);
 
     }
@@ -71,17 +84,30 @@ app.use(bodyParser.json());
 
     if(new Date() - externalApis.flickr.features.lastUpdated > externalApis.flickr.features.timeOut){
 
-    var query = apis.routes.flickr;
-    query += '?api_key=' + apis.keys.flickr.api_key;
-    query += '&method=flickr.photosets.getPhotos'
-    query += '&photoset_id=72157626574230146';
-    query += '&format=json&nojsoncallback=1&extras=tags,owner_name,url_n,url_o'
-    console.log(query);
-    request(query, function(error, response, body) {
-      externalApis.flickr.features.lastUpdated = new Date();
-      externalApis.writeFile(externalApis.flickr.features.file, body);
-      res.send(body);
-    });
+      console.log('Flickr gallery fetching from api');
+      var query = '?api_key=' + apis.keys.flickr.api_key;
+      query += '&method=flickr.photosets.getPhotos'
+      query += '&photoset_id=72157626574230146';
+      query += '&format=json&nojsoncallback=1&extras=tags,owner_name,url_n,url_o'
+
+      var requestOpts = {
+        url: apis.routes.flickr + query,
+        method: "GET",
+        gzip: true,
+        timeout: 3000
+      };
+
+      request(requestOpts, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          externalApis.flickr.features.lastUpdated = new Date();
+          externalApis.writeFile(externalApis.flickr.features.file, body);
+          res.send(body);
+        } else {
+          console.log(error);
+          console.log('Flickr features fetched from file cache - api request failed');
+          externalApis.readFile(externalApis.flickr.features.file, res);          
+        }
+      });
 
     } else {
 
@@ -98,20 +124,27 @@ app.use(bodyParser.json());
     if(new Date() - externalApis.flickr.gallery.lastUpdated > externalApis.flickr.gallery.timeOut){
 
       console.log('Flickr gallery fetching from api');
-      var query = apis.routes.flickr;
-      query += '?api_key=' + apis.keys.flickr.api_key;
+      var query = '?api_key=' + apis.keys.flickr.api_key;
       query += '&tags=photomacrography,-controller',
       query += '&format=json&nojsoncallback=1&per_page=150&page=1&method=flickr.photos.search&tag_mode=all&extras=tags,owner_name,url_n,url_o&safe_search=1'
-      request(query, function(error, response, body) {
-        console.log(body);
-        //if(!response){
+
+      var requestOpts = {
+        url: apis.routes.flickr + query,
+        method: "GET",
+        gzip: true,
+        timeout: 3000
+      };
+
+      request(requestOpts, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
           externalApis.flickr.gallery.lastUpdated = new Date();
           externalApis.writeFile(externalApis.flickr.gallery.file, body);
           res.send(body);
-        //} else {
-          //console.log('Flickr gallery fetched from file cache - api request failed');
-          //externalApis.readFile(externalApis.flickr.gallery.file, res);          
-        //}
+        } else {
+          console.log(error);
+          console.log('Flickr gallery fetched from file cache - api request failed');
+          externalApis.readFile(externalApis.flickr.gallery.file, res);          
+        }
       });
 
     } else {
@@ -128,7 +161,7 @@ app.use(bodyParser.json());
 
     if(new Date() - cacheSettings.lastUpdated.tumblr.articles > cacheSettings.timeOut.tumblr.articles){
 
-      console.log('Tumblr fetched from api');
+      console.log('Tumblr fetching from api');
 
       var blogTitle = req.params.args || 'reallysmall';
 
@@ -152,7 +185,7 @@ app.use(bodyParser.json());
     } else {
 
       console.log('Tumblr fetched from file cache');
-      cacheSettings.readFile(cacheSettings.file.flickr.gallery, res);
+      cacheSettings.readFile(cacheSettings.file.tumblr.articles, res);
 
     }
 

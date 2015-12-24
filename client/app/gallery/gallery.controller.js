@@ -14,6 +14,8 @@ angular.module('stackduinoApp')
 	getFlickrImages.requestAll()
     .success(function(data, status, headers) {
 
+    	console.log(data);
+
     	if(data.photos.photo.length){//if http request 'succeeds' and there is actually some data
 
 	    	//store the total number of pages
