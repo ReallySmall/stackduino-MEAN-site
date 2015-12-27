@@ -1,0 +1,29 @@
+<section class="panel repository-link" data-ng-show="repoLink">
+  <h3 class="panel-header">Project files</h3>   
+    <h4>
+      <a class="repository-link" ng-href="{{ repoLink }}">View on GitHub</a>
+    </h4>
+    <p>Download the most recent schematic, board files and Arduino code for {{ repoTitle }}.</p>
+    <div class="commit-list clearfix" ng-cloak>
+       <p ng-hide="commits">
+        <span class="fa fa-refresh fa-spin"> </span> Fetching recent updates...
+       </p>
+       <div ng-show="commits">
+          <h5 class="panel-sub-header">Latest updates to this version</h5>
+          <ul class="list-group repo-commits">
+              <li ng-repeat="commit in commits" class="list-group-item">
+                <span class="badge">{{commit.commit.committer.date | date:'dd MMMM yyyy'}}</span>
+                <a href="{{commit.html_url}}"> {{commit.commit.message}} </a>
+              </li>
+          </ul>
+       </div>
+    </div>
+    <div>
+    <h5 class="panel-sub-header">Issue status</h5>
+    <p ng-hide="issueStats">
+      <span class="fa fa-refresh fa-spin"> </span> Fetching issue status...
+    </p>
+    <canvas id="doughnut" class="chart chart-doughnut" data-ng-show="openIssues.length && closedIssues.length" chart-data="issueStats" chart-labels="issueLabels" chart-legend="true"></canvas>
+    <p data-ng-show="!openIssues.length">Currently no open issues for this board.</p>
+    <p data-ng-show="openIssues.length && !closedIssues.length">There are currently {{ openIssues.length }} issues open for this board.</p>
+</section>

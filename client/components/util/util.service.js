@@ -49,7 +49,18 @@ function UtilService($window) {
           url.protocol === o.protocol;
       });
       return (origins.length >= 1);
-    }
+    },
+
+    createPath: function(item){
+      item = item.replace(/ /g, '-').toLowerCase();
+      var url = window.location.href + '/' + item;
+      return url;
+    },
+
+    toClass: function(item){
+      item = item.replace(/ /g, '-').toLowerCase();
+      return item;
+    } 
 
   };
 

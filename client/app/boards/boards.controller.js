@@ -1,24 +1,15 @@
 'use strict';
 
-
 angular.module('stackduinoApp')
-  .controller('BoardsCtrl', function ($scope, $http, $location, getBoards) {
+  .controller('BoardsCtrl', function ($scope, $http, $location, getBoards, Util) {
+
+  $scope.utils = Util;
+  console.log($scope.utils);
 
   getBoards.requestAll()
     .success(function(data, status, headers) {
       $scope.boards = data.items;
-      console.log($scope.boards);
+        console.log(5);
     });
-
-    $scope.createPath = function(item){
-      item = item.replace(/ /g, '-').toLowerCase();
-      var url = $location.absUrl() + '/' + item;
-      return url;
-    };
-
-    $scope.toClass = function(item){
-      item = item.replace(/ /g, '-').toLowerCase();
-      return item;
-    }; 
 
   });

@@ -40,10 +40,11 @@ app.use(bodyParser.json());
 
       console.log('Contentful boards fetching from api');
 
-      var query = apis.routes.contentful.boards;
+      var query = '?access_token=' + apis.keys.contentful.api_key;
+      query += '&content_type=board';
 
       var requestOpts = {
-        url: query,
+        url: apis.routes.contentful + apis.keys.contentful.spaceId + "/entries" + query,
         method: "GET",
         gzip: true,
         timeout: 3000
@@ -73,6 +74,7 @@ app.use(bodyParser.json());
   // route to proxy calls to contentful api to get items by id
   app.get('/api/contentful/id/:args', function(req, res){
     var query = apis.routes.contentful.homepage;
+    //https://cdn.contentful.com/spaces/438wojq94dxn/entries/3Im1d1yKSQUEK8CCCYk8a0?access_token=c2efdb3e8160c06b4ffd2156a268f418a65787c4268332b344e016b9c1b6af36
     console.log(query);
     request(query, function(error, response, body) {
       res.send(body);

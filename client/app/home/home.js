@@ -5,7 +5,7 @@ angular.module('stackduinoApp')
     $stateProvider
       .state('home', {
         url: '/',
-        templateUrl: 'app/main/main.html',
+        templateUrl: 'app/home/home.html',
         controller: 'HomeCtrl',
         controllerAs: 'home'
       });

@@ -1,0 +1,64 @@
+<div data-ng-show="board" class="content">
+
+    <article class="col-sm-7">
+      <h1>{{ board.title }}</h1>
+      <div class="clearfix">
+        <p class="version-status active">
+          <span class="fa fa-flash {{ board.status.replace(' ', '-')}}"></span-->{{ board.status }}
+        </p>
+      </div>
+
+      <!-- Summary -->      
+      <div class="about-content" ng-bind-html="board.body"></div>
+
+      <!-- Image slider -->      
+      <section data-flex-slider="board.images" data-show-title="true"></section>
+
+      <!-- Main body -->      
+      <div class="about-content" ng-bind-html="board.body"></div>
+
+      <div class="panel specifications">
+        <h2 class="panel-header">Specifications</h2>
+        
+        <!-- Board main components -->
+        <section>
+        <h3 class="panel-sub-header">Components</h3>
+        <ul class="no-list-style">
+          <li data-field-item=""></li>
+        </ul>
+        </section>
+
+        <!-- Board power specs -->
+        <section >
+          <h3 class="panel-sub-header">Power</h3>
+          <ul class="no-list-style">
+            <li data-field-item="board.inputVoltage"></li>
+          </ul>
+        </section>
+
+        <!-- Board pinouts -->
+        <section>
+          <h3 class="panel-sub-header">Pinouts</h3>
+          <ul class="no-list-style">
+            <li data-expanding-list="board.field_external_io_gp_pinouts"></li>
+            <li data-expanding-list="board.header1"></li>
+          </ul>
+        </section>
+
+      </div>
+    </article>
+
+    <!--sidebar-->
+    <div class="aside col-sm-5">
+      <aside>
+        
+        <!-- Repository link -->
+        <section data-github="board.github_url" data-repo-title="board.title"></section> 
+
+        <section class="panel">
+          <h3 class="panel-header">Related resources</h3>
+        </section>
+
+      </aside>
+    </div>    
+</div>

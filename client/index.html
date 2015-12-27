@@ -14,6 +14,7 @@
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
       <link rel="stylesheet" href="bower_components/flexslider/flexslider.css" />
+      <link rel="stylesheet" href="bower_components/angular-chart.js/dist/angular-chart.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -63,12 +64,8 @@
       </header>
 
       <!-- Home page feature images -->
-      <section data-ng-controller="HomeCtrl" data-ng-show="isCurrentPath('/')" class="home-feature-images">
-        <!--div class="container">
-          <div class="row"-->
-            <div data-flex-slider="featureImages" data-show-title="false" data-slide="true"></div>
-          <!--/div>
-        </div-->
+      <section data-ng-show="isCurrentPath('/')" class="home-feature-images">
+        <div data-flex-slider="featureImages" data-show-title="false" data-slide="true"></div>
       </section>
 
       <!-- Main horizontal menu bar -->
@@ -158,6 +155,8 @@
       <script src="bower_components/isotope/dist/isotope.pkgd.min.js"></script>
       <script src="bower_components/angular-utils-ui-breadcrumbs/uiBreadcrumbs.js"></script>
       <script src="bower_components/flexslider/jquery.flexslider.js"></script>
+      <script src="bower_components/Chart.js/Chart.js"></script>
+      <script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js(.tmp) app/app.js -->
@@ -166,12 +165,14 @@
       <script src="app/admin/admin.module.js"></script>
       <script src="components/auth/auth.module.js"></script>
       <script src="components/util/util.module.js"></script>
-      <script src="app/getFlickrImages/getFlickrImages.service.js"></script>
+      <script src="app/getBoards/getBoards.service.js"></script>
       <script src="app/admin/admin.controller.js"></script>
       <script src="app/account/account.js"></script>
       <script src="app/admin/admin.router.js"></script>
       <script src="app/app.constant.js"></script>
       <script src="app/articleListing/articleListing.directive.js"></script>
+      <script src="app/board/board.controller.js"></script>
+      <script src="app/board/board.js"></script>
       <script src="app/boards/boards.controller.js"></script>
       <script src="app/boards/boards.js"></script>
       <script src="app/build/build.controller.js"></script>
@@ -181,10 +182,11 @@
       <script src="app/gallery/gallery.js"></script>
       <script src="app/getApiRoots/getApiRoots.service.js"></script>
       <script src="app/getArticles/getArticles.service.js"></script>
-      <script src="app/getBoards/getBoards.service.js"></script>
       <script src="app/account/login/login.controller.js"></script>
+      <script src="app/getFlickrImages/getFlickrImages.service.js"></script>
       <script src="app/getSettings/getSettings.service.js"></script>
       <script src="app/getWrapperContent/getWrapperContent.service.js"></script>
+      <script src="app/github/github.directive.js"></script>
       <script src="app/home/home.controller.js"></script>
       <script src="app/home/home.js"></script>
       <script src="app/main/main.controller.js"></script>
