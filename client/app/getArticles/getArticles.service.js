@@ -4,15 +4,15 @@ angular.module('stackduinoApp')
 
   .factory("getArticles", function($http, getApiRoots) {
 
-    //get all Flickr images tagged with n
+    //get all articles
   	var posts = {
-	    get: function(blog) {
+	    get: function() {
       	return $http({
       		method:'GET',
     		  dataType: 'json',
-	      	url: getApiRoots.tumblr + blog,
+	      	url: getApiRoots.tumblr + 'index',
 	      	cache: true,
-          timeout: 10000
+          timeout: 2000
 	      });
 	    }
   	};

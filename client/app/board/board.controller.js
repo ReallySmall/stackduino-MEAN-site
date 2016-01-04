@@ -5,13 +5,17 @@ angular.module('stackduinoApp')
 
       var boardParam = $location.path();
 
-    getBoards.requestAll()
-        .success(function(data, status, headers) {
+        $scope.statuses = getBoards.statuses();
+  console.log($scope.statuses);
 
-        for(var i = 0; i < data.items.length; i++){
-            var boardTitle = '/boards/' + data.items[i].fields.title.replace(' ', '-').toLowerCase();
+    getBoards.requestAll()
+        .then(function(response) {
+
+        for(var i = 0; i < response.data.items.length; i++){
+            var boardTitle = '/boards/' + response.data.items[i].fields.title.replace(' ', '-').toLowerCase();
             if(boardTitle === boardParam){
-                $scope.board = data.items[i].fields;
+                $scope.board = response.data.items[i].fields;
+                $scope.boardImages = response.data.includes.Asset;
                 break;
             }
         }
@@ -34,16 +38,15 @@ angular.module('stackduinoApp')
                 $http.get(getApiRoots.gitHub + repo_id + "/commits?per_page=3", 
                     {
                         timeout: 5000
-                    }).success(function (data) {
-                        $scope.commits = data;
+                    }).then(function (response) {
+                        $scope.commits = response.data;
                     });
 
                 $http.get(getApiRoots.gitHub + repo_id + "/issues?per_page=3&state=open", 
                     {
                         timeout: 5000
-                    }).success(function (data) {
-                        $scope.issues = data;
-                        console.log($scope.issues);
+                    }).then(function (response) {
+                        $scope.issues = response.data;
                     });
 
             }

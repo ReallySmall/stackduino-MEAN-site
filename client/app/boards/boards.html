@@ -2,7 +2,7 @@
 	<h1>Boards</h1>
     <p>Stackduino boards, past and present</p>
   <div data-loading-indicator="boards" class="col-sm-12"></div>
-  <section data-ng-repeat="item in boards" class="board" data-ng-class="utils.toClass(item.field_status[0].value)" data-board-id="{{ item.field_board_machine_id[0].value }}">
+  <section data-ng-repeat="item in boards" class="board" data-ng-class="statuses[item.fields.status].htmlClass">
     <div class="panel clearfix">
       <div class="row">
       <div class="col-sm-9">
@@ -13,7 +13,7 @@
         </h4>
       </div>
       <div class="col-sm-3">  
-        <img data-ng-src="{{ item.fields.images[0].sys.id }}" alt="" />
+        <img src="{{images[$index].fields.file.url}}" alt="{{images[$index].fields.title}}" />
         <span class="fa fa-ban"></span>
       </div>
     </div>

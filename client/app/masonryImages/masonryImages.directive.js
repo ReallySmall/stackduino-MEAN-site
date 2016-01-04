@@ -9,7 +9,7 @@ angular.module('stackduinoApp')
 			images: '=imageItems',
 			newItemCount: '=newItemCount'
 		},
-		link: function (scope, element, attrs) {
+		link: function (scope, element) {
 
 			var initialised = false;
 		    	
@@ -24,16 +24,20 @@ angular.module('stackduinoApp')
 	    		},
 	    		appendNew: function(){
 	    				var items = element.find('li').slice(-scope.newItemCount);
-	    				items.hide()
+	    				items.hide();
 	        			element.isotope('appended', items, items.fadeIn('slow'));	
 	    		},
 	    	};
 
-			scope.$watch('images', function(old, updated) { //run isotope layout functions
+			scope.$watch('images', function() { //run isotope layout functions
 
 					if(scope.images && scope.images.length){
 						$timeout(function(){
-							initialised == true ? masonryGrid.appendNew() : masonryGrid.init();
+							if(initialised){
+								masonryGrid.appendNew();
+							} else {
+								masonryGrid.init();
+							} 
 						}, 10);
 					}
 		

@@ -12,15 +12,13 @@ angular.module('stackduinoApp')
   	$scope.httpError = false;
     	
 	getFlickrImages.requestAll()
-    .success(function(data, status, headers) {
+    .then(function(response) {
 
-    	console.log(data);
-
-    	if(data.photos.photo.length){//if http request 'succeeds' and there is actually some data
+    	if(response.data.photos.photo.length){//if http request 'succeeds' and there is actually some data
 
 	    	//store the total number of pages
 	    	$scope.httpError = false;
-	    	$scope.holdingImages = data.photos.photo;
+	    	$scope.holdingImages = response.data.photos.photo;
 	    	$scope.totalPages = $scope.holdingImages.length / $scope.perPage;
 
 			//get the first page of results
@@ -33,8 +31,7 @@ angular.module('stackduinoApp')
 
 		}
 
-    })
-    .error(function(data, status, headers, conf) {
+    }, function() {
     	$scope.loading = false;
     	$scope.httpError = true;
     });
@@ -42,29 +39,15 @@ angular.module('stackduinoApp')
 	//get the next page of results
 	$scope.getResults = function(){
 
-		console.log($scope.page);
-		console.log($scope.totalPages);
-
 		if($scope.page < $scope.totalPages){
-
-			console.log($scope.holdingImages);
 
 			//push images to main scope array
 			for(var i = 0, j = ($scope.page * $scope.perPage); i < $scope.perPage; i++, j++){
 				$scope.images.push($scope.holdingImages[j]);
 			}	
 
-			console.log($scope.images);
-
-			$timeout(function(){
-				$scope.loading = false;	
-			}, 750);
-
+			$scope.loading = false;	
 			$scope.page++;
-
-		}
-
-		if($scope.page === $scope.totalPages){
 
 		}
 

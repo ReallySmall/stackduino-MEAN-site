@@ -1,15 +1,20 @@
 'use strict';
 
 angular.module('stackduinoApp')
-  .controller('BoardsCtrl', function ($scope, $http, $location, getBoards, Util) {
+  .controller('BoardsCtrl', function ($scope, getBoards, Util) {
 
   $scope.utils = Util;
-  console.log($scope.utils);
+
+  $scope.statuses = getBoards.statuses();
+  console.log($scope.statuses);
 
   getBoards.requestAll()
-    .success(function(data, status, headers) {
-      $scope.boards = data.items;
-        console.log(5);
+    .then(function(response) {
+      $scope.boards = response.data.items;
+      console.log($scope.boards);
+      $scope.images = response.data.includes.Asset;
+    }, function(){
+    	console.log("Failed to load baords data");
     });
 
   });

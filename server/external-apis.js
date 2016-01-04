@@ -3,9 +3,45 @@ var jsonfile = require('jsonfile');
 var externalApis = module.exports = {
   tumblr: {
     articles: {
-      timeOut: 1000 * 60 * 60, // an hour,
-      lastUpdated: '',
-      file: './content-cache/tumblr-reallysmall.json'
+      file: './content-cache/build-articles/tumblr-reallysmall.json',
+      articleFilesDir: './content-cache/build-articles/articles/',
+      buildArticlesIndex: function(data){
+        
+        var index = {
+          articles: [],
+          tags: []
+        };
+
+        for(var i = 0; i < data.length; i++){
+          
+          var item = data[i]; 
+
+          if(item.type === 'text' || 'photo' || 'video'){  
+            //create a main-field subset of each article object to use in the article listing
+            var article = {
+              title: item.title || item.caption,
+              timestamp: item.timestamp,
+              id: item.id,
+              slug: item.slug,
+              summary: item.summary,
+              tags: item.tags
+            };
+            index.articles.push(article);
+            
+            //build a list of unique tags to be used in automcompletes etc
+            for(var j = 0; j < item.tags.length; j++){
+              if(index.tags.indexOf(item.tags[j]) === -1){
+                index.tags.push(item.tags[j]);  
+              }
+            }
+
+          }
+
+        }
+
+        return index;
+
+      }
     }
   },
   flickr: {
@@ -22,17 +58,17 @@ var externalApis = module.exports = {
   },
   contentful: {
     pageWrapper: {
-      timeOut: 1000 * 60 * 360, // six hours,
+      timeOut: 1000 * 60 * 480, // eight hours,
       lastUpdated: '',
       file: './content-cache/flickr-contentful-page-wrapper.json'
     },
     homePage: {
-      timeOut: 1000 * 60 * 120, // two hours,
+      timeOut: 1000 * 60 * 480, // eight hours,
       lastUpdated: '',
       file: './content-cache/flickr-contentful-home-page.json'
     },
     boards: {
-      timeOut: 1000 * 60 * 120, // two hours,
+      timeOut: 1000 * 60 * 480, // eight hours,
       lastUpdated: '',
       file: './content-cache/flickr-contentful-boards.json'
     }

@@ -2,16 +2,15 @@
 	<h2>Build articles</h2>
 	<div class="form-group">
 		<label for="article-filter"><span class="visually-hidden">Filter articles by tag</span></label>
-		<input id="article-filter" type="text" class="form-control" placeholder="Filter articles" />
+		<input id="article-filter" auto-complete source="tags" type="text" class="form-control" placeholder="Filter articles" />
 	</div>	
 	<ul class="plain articles">
 		<li data-ng-repeat="article in articles track by $index">
 			<article>
 				<h3>
-					<a href="/{{article.id}}">{{article.title}}</a>
+					<a href="/{{article.id}}">{{article.summary}}</a>
 				</h3>
 				<p class="plain article-date">{{article.timestamp * 1000 | date: 'dd MMMM yyyy'}}</p>
-				<p class="summary">{{article.summary}}</p>
 				<ul class="plain tags">
 					<li data-ng-repeat="tag in article.tags">
 						<a href="#" title="Find all articles tagged with {{tag}}" data-ng-click="">

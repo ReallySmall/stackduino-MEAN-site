@@ -5,7 +5,7 @@
 		<div data-masonry-images data-image-items="images" data-new-item-count="perPage"></div>
 	</div>
 	<div class="row">
-		<button type="button" data-ng-hide="loading || page >= maxPages" class="btn btn-primary center-block" data-ng-click="getResults()">
+		<button type="button" data-ng-hide="loading || page >= totalPages" class="btn btn-primary center-block" data-ng-click="getResults()">
 			Show more
 		</button>
 		<p class="loading-content" data-ng-show="loading">

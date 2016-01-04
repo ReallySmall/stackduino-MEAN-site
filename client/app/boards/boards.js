@@ -6,6 +6,9 @@ angular.module('stackduinoApp')
       .state('boards', {
         url: '/boards',
         templateUrl: 'app/boards/boards.html',
-        controller: 'BoardsCtrl'
+        controller: 'BoardsCtrl',
+        ncyBreadcrumb: {
+    		label: 'Boards'
+  		}
       });
   });

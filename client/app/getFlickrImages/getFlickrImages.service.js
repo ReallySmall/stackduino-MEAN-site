@@ -2,7 +2,7 @@
 
 angular.module('stackduinoApp')
 
-  .factory("getFlickrImages", function($http, getApiRoots) {
+  .factory('getFlickrImages', function($http, getApiRoots) {
 
     //get all Flickr images tagged with n
   	var gallery = {

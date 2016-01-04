@@ -16,7 +16,7 @@ angular.module('stackduinoApp')
       	scope.$watch('items', function(old, updated) { //initiate flexslider
     			$timeout(function(){
     				element.find('.js-flexslider').flexslider({
-            			animation: scope.slide == true ? 'slide' : 'fade',
+            			animation: scope.slide === true ? 'slide' : 'fade',
             			directionNav: true,
                   customDirectionNav: $('.flexslider .slide-cover'),
                   slideshowSpeed: 15000,

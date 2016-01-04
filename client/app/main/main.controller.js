@@ -32,8 +32,8 @@ angular.module('stackduinoApp')
               }
             }
           }
-          for(var i = 0; i < $scope.featureImages.length; i++){
-            var $this = $scope.featureImages[i];              
+          for(var j = 0; j < $scope.featureImages.length; j++){
+            var $this = $scope.featureImages[j];              
             $this.href = 'https://farm' + $this.farm + '.staticflickr.com/' + $this.server + '/' + $this.id + '_' + $this.secret + '_b.jpg';
           }
         });
@@ -63,7 +63,7 @@ angular.module('stackduinoApp')
         href: 'mailto:reallysmallmacro@gmail.com',
         icon: 'envelope-square'
       }
-    ]
+    ];
 
     $scope.menuItems = [ //hardcoded for now, maybe get this from api in future
       {

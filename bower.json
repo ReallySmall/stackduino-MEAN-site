@@ -18,7 +18,10 @@
     "isotope": "~2.2.2",
     "angular-utils-ui-breadcrumbs": "~0.2.2",
     "flexslider": "~2.6.0",
-    "angular-chart.js": "~0.8.8"
+    "angular-breadcrumb": "~0.4.1",
+    "angular-chart.js": "~0.8.8",
+    "angucomplete-alt": "~2.1.0",
+    "angularjs-autocomplete": "~0.4.8"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.0"

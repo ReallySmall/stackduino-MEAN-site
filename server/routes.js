@@ -11,7 +11,6 @@ var bodyParser = require('body-parser');
 var request = require("request");
 var Tumburglar = require('tumburglar');
 var apis = require('./apis');
-var cacheSettings = require('./cache-settings');
 var externalApis = require('./external-apis');
 var apicache = require('apicache').options({ debug: true }).middleware;
 var jsonfile = require('jsonfile');
@@ -51,7 +50,7 @@ app.use(bodyParser.json());
       };
 
       request(requestOpts, function(error, response, body) {
-        if (!error && response.statusCode == 200) {
+        if (!error && response.statusCode === 200) {
           externalApis.contentful.boards.lastUpdated = new Date();
           externalApis.writeFile(externalApis.contentful.boards.file, body);
           res.send(body);
@@ -65,7 +64,45 @@ app.use(bodyParser.json());
     } else {
 
       console.log('Contentful boards fetched from file cache');
-      cacheSettings.readFile(cacheSettings.file.contentful.boards, res);
+      externalApis.readFile(externalApis.contentful.boards.file, res);
+
+    }
+
+  });
+
+  // route to proxy calls to contentful api to get items of content type board
+  app.get('/api/contentful/type/homepage', function(req, res){
+
+    if(new Date() - externalApis.contentful.homePage.lastUpdated > externalApis.contentful.homePage.timeOut){
+
+      console.log('Contentful homepage fetching from api');
+
+      var query = '?access_token=' + apis.keys.contentful.api_key;
+      query += '&content_type=homepage';
+
+      var requestOpts = {
+        url: apis.routes.contentful + apis.keys.contentful.spaceId + "/entries" + query,
+        method: "GET",
+        gzip: true,
+        timeout: 3000
+      };
+
+      request(requestOpts, function(error, response, body) {
+        if (!error && response.statusCode === 200) {
+          externalApis.contentful.homePage.lastUpdated = new Date();
+          externalApis.writeFile(externalApis.contentful.homePage.file, body);
+          res.send(body);
+        } else {
+          console.log(error);
+          console.log('Contentful homepage fetched from file cache - api request failed');
+          externalApis.readFile(externalApis.contentful.homePage.file, res);          
+        }
+      });
+
+    } else {
+
+      console.log('Contentful boards fetched from file cache');
+      externalApis.readFile(externalApis.contentful.homePage.file, res);
 
     }
 
@@ -100,7 +137,7 @@ app.use(bodyParser.json());
       };
 
       request(requestOpts, function(error, response, body) {
-        if (!error && response.statusCode == 200) {
+        if (!error && response.statusCode === 200) {
           externalApis.flickr.features.lastUpdated = new Date();
           externalApis.writeFile(externalApis.flickr.features.file, body);
           res.send(body);
@@ -127,7 +164,7 @@ app.use(bodyParser.json());
 
       console.log('Flickr gallery fetching from api');
       var query = '?api_key=' + apis.keys.flickr.api_key;
-      query += '&tags=photomacrography,-controller',
+      query += '&tags=stackduino,-controller',
       query += '&format=json&nojsoncallback=1&per_page=150&page=1&method=flickr.photos.search&tag_mode=all&extras=tags,owner_name,url_n,url_o&safe_search=1'
 
       var requestOpts = {
@@ -138,7 +175,7 @@ app.use(bodyParser.json());
       };
 
       request(requestOpts, function(error, response, body) {
-        if (!error && response.statusCode == 200) {
+        if (!error && response.statusCode === 200) {
           externalApis.flickr.gallery.lastUpdated = new Date();
           externalApis.writeFile(externalApis.flickr.gallery.file, body);
           res.send(body);
@@ -158,38 +195,42 @@ app.use(bodyParser.json());
 
   });
 
-  // route to proxy calls to Tumblr api
-  app.get('/api/tumblr/:args', function(req, res){
+  // route to return local index of Tumblr posts
+  app.get('/api/tumblr/index', function(req, res){
 
-    if(new Date() - cacheSettings.lastUpdated.tumblr.articles > cacheSettings.timeOut.tumblr.articles){
+      console.log('Tumblr index fetched from file cache');
+      externalApis.readFile(externalApis.tumblr.articles.file, res);
 
-      console.log('Tumblr fetching from api');
+  });
 
-      var blogTitle = req.params.args || 'reallysmall';
+  // route to return local copies of Tumblr posts
+  app.get('/api/tumblr/id/:args', function(req, res){
 
-      TB.loadBlog(blogTitle).then(function(TB) {
+      console.log('Tumblr article fetched from file cache');
+      externalApis.readFile(externalApis.tumblr.articles.file, res);
+
+  });
+
+  // route to update local copies of Tumblr posts
+  app.get('/api/tumblr/update', function(req, res){
+
+      console.log('Tumblr articles file cache update...');
+
+      TB.loadBlog('reallysmall').then(function(TB) { //using tumburglar to fetch all posts
         return TB.getPosts({
           amount: 1000
-        }, {
-          verbose: true
         });
       }).then(function(data) {
-        if(!data){
-          console.log('Tumblr - no data from api call - fetched from file cache');
-          cacheSettings.readFile(cacheSettings.file.tumblr.articles, res);
-        } else {
-          cacheSettings.lastUpdated.tumblr.articles = new Date();
-          cacheSettings.writeFile(cacheSettings.file.tumblr.articles, data);
-          res.send(data);
+        //create an article index file
+        var indexData = externalApis.tumblr.articles.buildArticlesIndex(data);
+        externalApis.writeFile(externalApis.tumblr.articles.file, indexData);
+        //then create a file for each article
+        for(var i = 0; i < data.length; i++){
+          var articleId = data[i].id;
+          console.log(articleId);
         }
+        res.send('{"status": "complete"}');
       });
-
-    } else {
-
-      console.log('Tumblr fetched from file cache');
-      cacheSettings.readFile(cacheSettings.file.tumblr.articles, res);
-
-    }
 
   });
 

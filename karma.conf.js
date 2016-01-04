@@ -24,8 +24,11 @@ module.exports = function(config) {
       'client/bower_components/isotope/dist/isotope.pkgd.min.js',
       'client/bower_components/angular-utils-ui-breadcrumbs/uiBreadcrumbs.js',
       'client/bower_components/flexslider/jquery.flexslider.js',
+      'client/bower_components/angular-breadcrumb/release/angular-breadcrumb.js',
       'client/bower_components/Chart.js/Chart.js',
       'client/bower_components/angular-chart.js/dist/angular-chart.js',
+      'client/bower_components/angucomplete-alt/angucomplete-alt.js',
+      'client/bower_components/angularjs-autocomplete/build/angularjs-autocomplete.min.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'client/app/app.js',
