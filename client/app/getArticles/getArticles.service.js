@@ -14,12 +14,24 @@ angular.module('stackduinoApp')
 	      	cache: true,
           timeout: 2000
 	      });
-	    }
+	    },
+      byId: function(id) {
+        return $http({
+          method:'GET',
+          dataType: 'json',
+          url: getApiRoots.tumblr + 'id/' + id,
+          cache: true,
+          timeout: 2000
+        });
+      }
   	};
 
     return {
-      requestAll: function(blog) { 
-      	return posts.get(blog); 
+      requestAll: function() { 
+      	return posts.get(); 
+      },
+      byId: function(id) {
+        return posts.byId(id);
       }
     };
 

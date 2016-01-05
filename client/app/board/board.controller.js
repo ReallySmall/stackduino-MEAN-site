@@ -6,7 +6,6 @@ angular.module('stackduinoApp')
       var boardParam = $location.path();
 
         $scope.statuses = getBoards.statuses();
-  console.log($scope.statuses);
 
     getBoards.requestAll()
         .then(function(response) {

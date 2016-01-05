@@ -1,0 +1,15 @@
+<div class="col-md-12">
+	<article>
+		<h2>{{article.summary}}</h2>
+		<p class="plain article-date">{{article.timestamp * 1000 | date: 'dd MMMM yyyy'}}</p>
+		<div ng-bind-html="article.body"></div>
+		<ul class="plain tags">
+			<li data-ng-repeat="tag in article.tags">
+				<a href="#" title="Find all articles tagged with {{tag}}" data-ng-click="">
+					<span class="visually-hidden">Find all articles tagged with</span>
+					{{tag}}
+				</a>
+			</li>
+		</ul>
+	</article>
+</div>

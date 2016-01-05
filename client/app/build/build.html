@@ -8,7 +8,7 @@
 		<li data-ng-repeat="article in articles track by $index">
 			<article>
 				<h3>
-					<a href="/{{article.id}}">{{article.summary}}</a>
+					<a href="/build/{{article.id}}">{{article.summary}}</a>
 				</h3>
 				<p class="plain article-date">{{article.timestamp * 1000 | date: 'dd MMMM yyyy'}}</p>
 				<ul class="plain tags">

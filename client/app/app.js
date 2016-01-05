@@ -8,6 +8,7 @@ angular.module('stackduinoApp', [
   'ngResource',
   'ngSanitize',
   'ui.router',
+  'ngRoute',
   'validation.match',
   'chart.js',
   'ncy-angular-breadcrumb',

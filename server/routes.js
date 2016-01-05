@@ -15,6 +15,7 @@ var externalApis = require('./external-apis');
 var apicache = require('apicache').options({ debug: true }).middleware;
 var jsonfile = require('jsonfile');
 var util = require('util');
+var fs = require('fs');
 
 var TB = new Tumburglar({
     consumerKey: apis.keys.tumblr.consumer_key,
@@ -204,10 +205,11 @@ app.use(bodyParser.json());
   });
 
   // route to return local copies of Tumblr posts
-  app.get('/api/tumblr/id/:args', function(req, res){
+  app.get('/api/tumblr/id/:id', function(req, res){
 
       console.log('Tumblr article fetched from file cache');
-      externalApis.readFile(externalApis.tumblr.articles.file, res);
+      var articleId = req.params.id
+      externalApis.readFile(externalApis.tumblr.articles.articleFilesDir + "/" + articleId + ".json", res);
 
   });
 
@@ -227,7 +229,12 @@ app.use(bodyParser.json());
         //then create a file for each article
         for(var i = 0; i < data.length; i++){
           var articleId = data[i].id;
-          console.log(articleId);
+          fs.writeFile(externalApis.tumblr.articles.articleFilesDir + "/" + articleId + ".json", JSON.stringify(data[i]), function(err) {
+            if(err) {
+              return console.log(err);
+            }
+            console.log("The file was saved!");
+          }); 
         }
         res.send('{"status": "complete"}');
       });
