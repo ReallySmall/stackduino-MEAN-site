@@ -16,6 +16,7 @@ var apicache = require('apicache').options({ debug: true }).middleware;
 var jsonfile = require('jsonfile');
 var util = require('util');
 var fs = require('fs');
+var download = require('./download');
 
 var TB = new Tumburglar({
     consumerKey: apis.keys.tumblr.consumer_key,
@@ -35,10 +36,11 @@ app.use(bodyParser.json());
 
   // route to proxy calls to contentful api to get items of content type board
   app.get('/api/contentful/type/boards', function(req, res){
+    externalApis.readFile(externalApis.contentful.boards.file, res);
+  });
 
-    if(new Date() - externalApis.contentful.boards.lastUpdated > externalApis.contentful.boards.timeOut){
-
-      console.log('Contentful boards fetching from api');
+  // route to proxy calls to contentful api to get items of content type board
+  app.get('/api/contentful/type/boards/update', function(req, res){
 
       var query = '?access_token=' + apis.keys.contentful.api_key;
       query += '&content_type=board';
@@ -52,31 +54,20 @@ app.use(bodyParser.json());
 
       request(requestOpts, function(error, response, body) {
         if (!error && response.statusCode === 200) {
-          externalApis.contentful.boards.lastUpdated = new Date();
           externalApis.writeFile(externalApis.contentful.boards.file, body);
-          res.send(body);
-        } else {
-          console.log(error);
-          console.log('Contentful boards fetched from file cache - api request failed');
-          externalApis.readFile(externalApis.contentful.boards.file, res);          
+          res.send('{"status": "complete"}');
         }
       });
-
-    } else {
-
-      console.log('Contentful boards fetched from file cache');
-      externalApis.readFile(externalApis.contentful.boards.file, res);
-
-    }
 
   });
 
   // route to proxy calls to contentful api to get items of content type board
   app.get('/api/contentful/type/homepage', function(req, res){
+      externalApis.readFile(externalApis.contentful.homePage.file, res);
+  });
 
-    if(new Date() - externalApis.contentful.homePage.lastUpdated > externalApis.contentful.homePage.timeOut){
-
-      console.log('Contentful homepage fetching from api');
+  // route to proxy calls to contentful api to get items of content type board
+  app.get('/api/contentful/type/homepage/update', function(req, res){
 
       var query = '?access_token=' + apis.keys.contentful.api_key;
       query += '&content_type=homepage';
@@ -90,33 +81,11 @@ app.use(bodyParser.json());
 
       request(requestOpts, function(error, response, body) {
         if (!error && response.statusCode === 200) {
-          externalApis.contentful.homePage.lastUpdated = new Date();
           externalApis.writeFile(externalApis.contentful.homePage.file, body);
-          res.send(body);
-        } else {
-          console.log(error);
-          console.log('Contentful homepage fetched from file cache - api request failed');
-          externalApis.readFile(externalApis.contentful.homePage.file, res);          
+          res.send('{"status": "complete"}');
         }
       });
 
-    } else {
-
-      console.log('Contentful boards fetched from file cache');
-      externalApis.readFile(externalApis.contentful.homePage.file, res);
-
-    }
-
-  });
-
-  // route to proxy calls to contentful api to get items by id
-  app.get('/api/contentful/id/:args', function(req, res){
-    var query = apis.routes.contentful.homepage;
-    //https://cdn.contentful.com/spaces/438wojq94dxn/entries/3Im1d1yKSQUEK8CCCYk8a0?access_token=c2efdb3e8160c06b4ffd2156a268f418a65787c4268332b344e016b9c1b6af36
-    console.log(query);
-    request(query, function(error, response, body) {
-      res.send(body);
-    });
   });
 
   // route to proxy calls to Flickr api for homepage features
@@ -229,6 +198,14 @@ app.use(bodyParser.json());
         //then create a file for each article
         for(var i = 0; i < data.length; i++){
           var articleId = data[i].id;
+
+          var image = data[i].image_permalink;
+          if(image){
+            //download.getFile(image, 'image.jpg', function(){
+              //console.log(image);
+            //});
+          }
+
           fs.writeFile(externalApis.tumblr.articles.articleFilesDir + "/" + articleId + ".json", JSON.stringify(data[i]), function(err) {
             if(err) {
               return console.log(err);

@@ -3,6 +3,7 @@
 		<h2>{{article.summary}}</h2>
 		<p class="plain article-date">{{article.timestamp * 1000 | date: 'dd MMMM yyyy'}}</p>
 		<div ng-bind-html="article.body"></div>
+		<p><a data-ng-src="{{article.image_permalink}}" /></p>
 		<ul class="plain tags">
 			<li data-ng-repeat="tag in article.tags">
 				<a href="#" title="Find all articles tagged with {{tag}}" data-ng-click="">

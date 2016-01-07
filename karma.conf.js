@@ -30,6 +30,7 @@ module.exports = function(config) {
       'client/bower_components/angucomplete-alt/angucomplete-alt.js',
       'client/bower_components/angularjs-autocomplete/build/angularjs-autocomplete.min.js',
       'client/bower_components/angular-route/angular-route.js',
+      'client/bower_components/angular-animate/angular-animate.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'client/app/app.js',
