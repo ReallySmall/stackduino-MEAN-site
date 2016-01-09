@@ -3,11 +3,10 @@
 angular.module('stackduinoApp')
   .controller('BoardCtrl', function ($scope, $location, $http, getBoards, getApiRoots) {
 
-      var boardParam = $location.path();
-
+        var boardParam = $location.path();
         $scope.statuses = getBoards.statuses();
 
-    getBoards.requestAll()
+    getBoards.index()
         .then(function(response) {
 
         for(var i = 0; i < response.data.items.length; i++){

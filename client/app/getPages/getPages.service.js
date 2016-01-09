@@ -8,7 +8,7 @@ angular.module('stackduinoApp')
 	    home: function() {
 	      	return $http({
 	      		method:'GET',
-	      		url: getApiRoots.contentful + "type/homepage",
+	      		url: getApiRoots.content + "homepage",
 	      		cache: true 
 	      	});
 	    }

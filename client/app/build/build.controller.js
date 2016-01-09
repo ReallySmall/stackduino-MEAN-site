@@ -8,7 +8,7 @@ angular.module('stackduinoApp')
   	$scope.loading = true;
   	$scope.httpError = false;
     	
-  	getArticles.requestAll()
+  	getArticles.index()
     .then(function(response) {
     	$scope.articles = response.data.articles;
       console.log($scope.articles);

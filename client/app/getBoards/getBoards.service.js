@@ -4,13 +4,22 @@ angular.module('stackduinoApp')
 
 .factory("getBoards", function($http, getApiRoots) {
 
-	var boardList = {
-	    doRequest: function() {
+	var boards = {
+	    index: function() {
 	      	return $http({
 	      		method:'GET',
-	      		url: getApiRoots.contentful + 'type/boards',
+	      		url: getApiRoots.content + 'boards/index',
 	      		cache: true 
 	      	});
+	    },
+	    byId: function(id) {
+	        return $http({
+          		method:'GET',
+          		dataType: 'json',
+          		url: getApiRoots.content + 'boards/id/' + id,
+          		cache: true,
+          		timeout: 2000
+	        });
 	    },
 	    statuses: function(){
 	    	return [
@@ -34,11 +43,14 @@ angular.module('stackduinoApp')
 	};
 
     return {
-      requestAll: function() { 
-      	return boardList.doRequest(); 
+      index: function() { 
+      	return boards.index(); 
+      },
+      byId: function(id) {
+        return boards.byId(id);
       },
       statuses: function() { 
-      	return boardList.statuses(); 
+      	return boards.statuses(); 
       }
     };
 

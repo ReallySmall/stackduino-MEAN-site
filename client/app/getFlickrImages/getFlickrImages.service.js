@@ -6,12 +6,12 @@ angular.module('stackduinoApp')
 
     //get all Flickr images tagged with n
   	var gallery = {
-	    doRequest: function(perPage, page) {
+	    doRequest: function() {
         
       	return $http({
       		method:'GET',
     			dataType: 'json',
-	      	url: getApiRoots.flickr + 'gallery',
+	      	url: getApiRoots.content + 'gallery',
 	      	cache: true,
           timeout: 10000
 	      });
@@ -25,7 +25,7 @@ angular.module('stackduinoApp')
   	    return $http({
   	      method:'GET',
       		dataType: 'json',
-          url: getApiRoots.flickr + 'features',  	      
+          url: getApiRoots.content + 'features',  	      
           cache: true,
           timeout: 10000 
   	     });
@@ -34,11 +34,11 @@ angular.module('stackduinoApp')
   	};
 
     return {
-      requestAll: function(perPage, page) { 
-      	return gallery.doRequest(perPage, page); 
+      requestAll: function() { 
+      	return gallery.doRequest(); 
       },
-      requestFeatureImages: function(photoset) { 
-      	return featureImages.doRequest(photoset); 
+      requestFeatureImages: function() { 
+      	return featureImages.doRequest(); 
       }
     };
 

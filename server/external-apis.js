@@ -3,7 +3,7 @@ var jsonfile = require('jsonfile');
 var externalApis = module.exports = {
   tumblr: {
     articles: {
-      file: './content-cache/build-articles/tumblr-reallysmall.json',
+      file: './content-cache/build-articles/articles-index.json',
       articleFilesDir: './content-cache/build-articles/articles/',
       buildArticlesIndex: function(data){
         
@@ -48,29 +48,24 @@ var externalApis = module.exports = {
     features: {
       timeOut: 1000 * 60 * 240, // four hours,
       lastUpdated: '',
-      file: './content-cache/flickr-reallysmall-features.json'
+      file: './content-cache/features.json'
     },
     gallery: {
       timeOut: 1000 * 60 * 90, // an hour and a half,
       lastUpdated: '',
-      file: './content-cache/flickr-reallysmall-gallery.json'
+      file: './content-cache/gallery.json'
     }
   },
   contentful: {
     pageWrapper: {
-      timeOut: 1000 * 60 * 480, // eight hours,
-      lastUpdated: '',
-      file: './content-cache/flickr-contentful-page-wrapper.json'
+      file: './content-cache/page-wrapper.json'
     },
     homePage: {
-      timeOut: 1000 * 60 * 480, // eight hours,
-      lastUpdated: '',
-      file: './content-cache/flickr-contentful-home-page.json'
+      file: './content-cache/home-page.json'
     },
     boards: {
-      timeOut: 1000 * 60 * 480, // eight hours,
-      lastUpdated: '',
-      file: './content-cache/flickr-contentful-boards.json'
+      file: './content-cache/board-versions/boards-index.json',
+      boardFilesDir: './content-cache/board-versions/versions/'
     }
   },
   readFile: function(file, res){

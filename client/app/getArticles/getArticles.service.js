@@ -4,13 +4,12 @@ angular.module('stackduinoApp')
 
   .factory("getArticles", function($http, getApiRoots) {
 
-    //get all articles
-  	var posts = {
-	    get: function() {
+  	var articles = {
+	    index: function() {
       	return $http({
       		method:'GET',
     		  dataType: 'json',
-	      	url: getApiRoots.tumblr + 'index',
+	      	url: getApiRoots.content + 'articles/index',
 	      	cache: true,
           timeout: 2000
 	      });
@@ -19,7 +18,7 @@ angular.module('stackduinoApp')
         return $http({
           method:'GET',
           dataType: 'json',
-          url: getApiRoots.tumblr + 'id/' + id,
+          url: getApiRoots.content + 'articles/id/' + id,
           cache: true,
           timeout: 2000
         });
@@ -27,11 +26,11 @@ angular.module('stackduinoApp')
   	};
 
     return {
-      requestAll: function() { 
-      	return posts.get(); 
+      index: function() { 
+      	return articles.index(); 
       },
       byId: function(id) {
-        return posts.byId(id);
+        return articles.byId(id);
       }
     };
 

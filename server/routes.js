@@ -35,12 +35,21 @@ app.use(bodyParser.json());
   app.use('/api/users', require('./api/user'));
 
   // route to proxy calls to contentful api to get items of content type board
-  app.get('/api/contentful/type/boards', function(req, res){
+  app.get('/api/content/boards/index', function(req, res){
     externalApis.readFile(externalApis.contentful.boards.file, res);
   });
 
+  // route to return local copies of boards
+  app.get('/api/content/boards/id/:id', function(req, res){
+
+      console.log('Board fetched from file cache');
+      var boardId = req.params.id
+      externalApis.readFile(externalApis.contentful.boards.boardFilesDir + "/" + boardId + ".json", res);
+
+  });
+
   // route to proxy calls to contentful api to get items of content type board
-  app.get('/api/contentful/type/boards/update', function(req, res){
+  app.get('/api/content/boards/update', function(req, res){
 
       var query = '?access_token=' + apis.keys.contentful.api_key;
       query += '&content_type=board';
@@ -54,20 +63,46 @@ app.use(bodyParser.json());
 
       request(requestOpts, function(error, response, body) {
         if (!error && response.statusCode === 200) {
+          
+          var jsonbody = JSON.parse(body);
+          var data = jsonbody.items;
+
+          for(var i = 0; i < data.length; i++){
+
+            //console.log(i);
+
+            //create an abridged object for index page for each board
+            var board = {
+              id: data[i].fields.version
+            }
+
+            fs.writeFile(externalApis.contentful.boards.boardFilesDir + "/" + board.id + ".json", JSON.stringify(data[i]), function(err) {
+              if(err) {
+                return console.log(err);
+              }
+              console.log("The file was saved!");
+            });
+
+          }
+
           externalApis.writeFile(externalApis.contentful.boards.file, body);
-          res.send('{"status": "complete"}');
+
+          res.send("done");
+            
         }
+          
+
       });
 
   });
 
   // route to proxy calls to contentful api to get items of content type board
-  app.get('/api/contentful/type/homepage', function(req, res){
+  app.get('/api/content/homepage', function(req, res){
       externalApis.readFile(externalApis.contentful.homePage.file, res);
   });
 
   // route to proxy calls to contentful api to get items of content type board
-  app.get('/api/contentful/type/homepage/update', function(req, res){
+  app.get('/api/content/homepage/update', function(req, res){
 
       var query = '?access_token=' + apis.keys.contentful.api_key;
       query += '&content_type=homepage';
@@ -89,7 +124,7 @@ app.use(bodyParser.json());
   });
 
   // route to proxy calls to Flickr api for homepage features
-  app.get('/api/flickr/features', function(req, res){
+  app.get('/api/content/features', function(req, res){
 
     if(new Date() - externalApis.flickr.features.lastUpdated > externalApis.flickr.features.timeOut){
 
@@ -128,7 +163,7 @@ app.use(bodyParser.json());
   });
 
   // route to proxy calls to Flickr api for gallery
-  app.get('/api/flickr/gallery', function(req, res){
+  app.get('/api/content/gallery', function(req, res){
 
     if(new Date() - externalApis.flickr.gallery.lastUpdated > externalApis.flickr.gallery.timeOut){
 
@@ -166,7 +201,7 @@ app.use(bodyParser.json());
   });
 
   // route to return local index of Tumblr posts
-  app.get('/api/tumblr/index', function(req, res){
+  app.get('/api/content/articles/index', function(req, res){
 
       console.log('Tumblr index fetched from file cache');
       externalApis.readFile(externalApis.tumblr.articles.file, res);
@@ -174,7 +209,7 @@ app.use(bodyParser.json());
   });
 
   // route to return local copies of Tumblr posts
-  app.get('/api/tumblr/id/:id', function(req, res){
+  app.get('/api/content/articles/id/:id', function(req, res){
 
       console.log('Tumblr article fetched from file cache');
       var articleId = req.params.id
@@ -183,7 +218,7 @@ app.use(bodyParser.json());
   });
 
   // route to update local copies of Tumblr posts
-  app.get('/api/tumblr/update', function(req, res){
+  app.get('/api/content/articles/update', function(req, res){
 
       console.log('Tumblr articles file cache update...');
 

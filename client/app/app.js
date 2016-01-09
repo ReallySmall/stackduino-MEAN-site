@@ -23,4 +23,9 @@ angular.module('stackduinoApp', [
       prefixStateName: 'home',
       template: 'bootstrap2'
     });
+  })
+  .run(function($rootScope, $anchorScroll){
+    $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
+      $anchorScroll();
+    });
   });

@@ -16,6 +16,7 @@
       <link rel="stylesheet" href="bower_components/flexslider/flexslider.css" />
       <link rel="stylesheet" href="bower_components/angular-chart.js/dist/angular-chart.css" />
       <link rel="stylesheet" href="bower_components/angucomplete-alt/angucomplete-alt.css" />
+      <link rel="stylesheet" href="bower_components/animate.css/animate.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -29,7 +30,7 @@
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     
-    <div data-ng-controller="MainCtrl">
+    <div data-ng-controller="MainCtrl" class="main">
 
       <header id="masthead" class="site-header ng-cloak" role="banner">
         <div class="container">
@@ -95,11 +96,9 @@
       </section>
 
       <!-- Page partial container -->
-      <section data-ng-class="{ 'home' : isCurrentPath('/') }">
-        <div class="container view-animate-container ng-cloak">
-          <div ui-view="" id="main-content" class="view-animate row"></div>
-        </div>
-      </section>
+      <div class="container view-animate-container ng-cloak" data-ng-class="{ 'home' : isCurrentPath('/') }">
+        <section ui-view="" id="main-content" class="fade row"></section>
+      </div>
 
       <!-- Footer -->
       <footer id="colophon" class="site-footer" role="contentinfo">

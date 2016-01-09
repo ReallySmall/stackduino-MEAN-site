@@ -8,7 +8,7 @@ angular.module('stackduinoApp')
   $scope.statuses = getBoards.statuses();
   console.log($scope.statuses);
 
-  getBoards.requestAll()
+  getBoards.index()
     .then(function(response) {
       $scope.boards = response.data.items;
       console.log($scope.boards);
