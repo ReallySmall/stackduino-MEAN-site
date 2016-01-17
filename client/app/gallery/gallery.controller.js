@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('stackduinoApp')
-  .controller('GalleryCtrl', function ($timeout, $scope, getFlickrImages) {
+  .controller('GalleryCtrl', function ($timeout, $scope, getContent, getApiRoots) {
 
   	$scope.holdingImages = [];
   	$scope.images = [];
@@ -11,7 +11,7 @@ angular.module('stackduinoApp')
   	$scope.loading = true;
   	$scope.httpError = false;
     	
-	getFlickrImages.requestAll()
+	getContent.get(getApiRoots.content + 'gallery')
     .then(function(response) {
 
     	if(response.data.photos.photo.length){//if http request 'succeeds' and there is actually some data

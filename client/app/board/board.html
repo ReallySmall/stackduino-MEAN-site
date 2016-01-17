@@ -1,11 +1,13 @@
+<div class="container">
 <div data-ng-show="board" class="content">
 
     <article class="col-sm-7">
       <h1>{{ board.title }}</h1>
       <div class="clearfix">
-        <p class="version-status active">
-          <span data-ng-class="statuses[board.status].htmlClass" class="fa fa-flash"></span> <abbr title="{{statuses[board.status].description}}">{{statuses[board.status].title}}</abbr>
-        </p>
+        <p class="version-status" data-ng-class="statuses[board.status].htmlClass">
+            <span data-ng-class="statuses[board.status].icon"></span> 
+            <abbr title="{{statuses[board.status].description}}">{{statuses[board.status].title}}</abbr>
+          </p>
       </div>
 
       <!-- Summary -->      
@@ -15,7 +17,7 @@
       <section>
         <div class="js-flexslider">
           <ul class="slides">
-          <li data-ng-repeat="image in boardImages">
+          <li data-ng-repeat="image in board.images">
             <figure>
               <div class="img-placeholder" style="padding-bottom: {{(image.fields.file.details.image.height / image.fields.file.details.image.width) * 100}}%">
                 <img src="{{image.fields.file.url}}" alt="{{image.fields.title}}" />
@@ -30,6 +32,7 @@
       <!-- Main body -->      
       <div class="about-content" ng-bind-html="board.body"></div>
 
+      <div class="inset-wrapper">
       <div class="panel specifications">
         <h2 class="panel-header">Specifications</h2>
         
@@ -59,6 +62,7 @@
         </section>
 
       </div>
+      </div>
     </article>
 
     <!--sidebar-->
@@ -66,12 +70,17 @@
       <aside>
         
         <!-- Repository link -->
-        <section data-github="board.github_url" data-repo-title="board.title"></section> 
+        <div class="inset-wrapper">
+          <section data-github="board.github_url" data-repo-title="board.title"></section> 
+        </div>
 
+        <div class="inset-wrapper">
         <section class="panel">
           <h3 class="panel-header">Related resources</h3>
         </section>
+        </div>
 
       </aside>
     </div>    
+</div>
 </div>

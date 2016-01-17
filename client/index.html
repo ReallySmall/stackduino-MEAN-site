@@ -25,12 +25,12 @@
       <!-- endinjector -->
     <!-- endbuild -->
   </head>
-  <body ng-app="stackduinoApp">
+  <body ng-app="stackduinoApp" data-ng-controller="MainCtrl" data-ng-class="{ 'home' : isCurrentPath('/') }">
     <!--[if lt IE 9]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     
-    <div data-ng-controller="MainCtrl" class="main">
+    <div class="main">
 
       <header id="masthead" class="site-header ng-cloak" role="banner">
         <div class="container">
@@ -64,11 +64,6 @@
         </div>
       </header>
 
-      <!-- Home page feature images -->
-      <section data-ng-show="isCurrentPath('/')" class="home-feature-images">
-        <div data-flex-slider="featureImages" data-show-title="false" data-slide="true"></div>
-      </section>
-
       <!-- Main horizontal menu bar -->
       <section id="preface-area">
         <div class="container">
@@ -96,8 +91,8 @@
       </section>
 
       <!-- Page partial container -->
-      <div class="container view-animate-container ng-cloak" data-ng-class="{ 'home' : isCurrentPath('/') }">
-        <section ui-view="" id="main-content" class="fade row"></section>
+      <div class="view-animate-container ng-cloak">
+        <section ui-view="" id="main-content" class="fade"></section>
       </div>
 
       <!-- Footer -->
@@ -164,7 +159,7 @@
       <script src="app/admin/admin.module.js"></script>
       <script src="components/auth/auth.module.js"></script>
       <script src="components/util/util.module.js"></script>
-      <script src="app/getBoards/getBoards.service.js"></script>
+      <script src="app/getContent/getContent.service.js"></script>
       <script src="app/admin/admin.controller.js"></script>
       <script src="app/account/account.js"></script>
       <script src="app/admin/admin.router.js"></script>
@@ -183,10 +178,12 @@
       <script src="app/gallery/gallery.js"></script>
       <script src="app/getApiRoots/getApiRoots.service.js"></script>
       <script src="app/getArticles/getArticles.service.js"></script>
+      <script src="app/getBoards/getBoards.service.js"></script>
       <script src="app/account/login/login.controller.js"></script>
       <script src="app/getFlickrImages/getFlickrImages.service.js"></script>
       <script src="app/getPages/getPages.service.js"></script>
       <script src="app/getSettings/getSettings.service.js"></script>
+      <script src="app/getStrings/getStrings.service.js"></script>
       <script src="app/getWrapperContent/getWrapperContent.service.js"></script>
       <script src="app/github/github.directive.js"></script>
       <script src="app/home/home.controller.js"></script>

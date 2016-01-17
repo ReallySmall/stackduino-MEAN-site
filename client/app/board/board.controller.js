@@ -1,27 +1,21 @@
 'use strict';
 
 angular.module('stackduinoApp')
-  .controller('BoardCtrl', function ($scope, $location, $http, getBoards, getApiRoots) {
+  .controller('BoardCtrl', function ($scope, $location, $stateParams, $http, getContent, getBoards, getApiRoots) {
 
-        var boardParam = $location.path();
-        $scope.statuses = getBoards.statuses();
+    $scope.id = $stateParams.id;
+    $scope.board = null;
+    $scope.statuses = getBoards.statuses();
 
-    getBoards.index()
+    getContent.get(getApiRoots.content + 'boards/id/' + $scope.id)
         .then(function(response) {
-
-        for(var i = 0; i < response.data.items.length; i++){
-            var boardTitle = '/boards/' + response.data.items[i].fields.title.replace(' ', '-').toLowerCase();
-            if(boardTitle === boardParam){
-                $scope.board = response.data.items[i].fields;
-                $scope.boardImages = response.data.includes.Asset;
-                break;
-            }
-        }
-
-        console.log($scope.board);
+            $scope.board = response.data.content.fields;
+            console.log($scope.board);
+            $scope.images = response.data.assets;
+        });
 
         if(!$scope.board){
-            $location.path('/');
+            //$location.path('/');
         } else {
 
     	//On document ready (move this into a directive)
@@ -53,5 +47,4 @@ angular.module('stackduinoApp')
 
     }
 
-});
 });

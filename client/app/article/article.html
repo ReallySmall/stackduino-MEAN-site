@@ -1,11 +1,12 @@
+<div class="container">
 <div class="col-md-12">
 	<article>
 		<h2>{{article.summary}}</h2>
 		<p class="plain article-date">{{article.timestamp * 1000 | date: 'dd MMMM yyyy'}}</p>
 		<div ng-bind-html="article.body"></div>
-		<p><a data-ng-src="{{article.image_permalink}}" /></p>
+		<p><img data-ng-src="{{article.photos[0].original_size.url | trusted}}" /></p>
 		<ul class="plain tags">
-			<li data-ng-repeat="tag in article.tags">
+			<li data-ng-repeat="tag in article.tags track by $index">
 				<a href="#" title="Find all articles tagged with {{tag}}" data-ng-click="">
 					<span class="visually-hidden">Find all articles tagged with</span>
 					{{tag}}
@@ -13,4 +14,5 @@
 			</li>
 		</ul>
 	</article>
+</div>
 </div>

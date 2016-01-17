@@ -1,19 +1,25 @@
-<div class="col-md-12">
-  <div data-loading-indicator="about.intro"></div>
-  <h2 class="visually-hidden">About Stackduino</h2>
-  <div ng-bind-html="about.intro" class="bold"></div>
-  <h3>{{about.title}}</h3>
-  <div ng-bind-html="about.body_1"></div>
-  <div class="row">
-	<ul class="plain">
-      <li data-ng-repeat="image in homeImages" class="col-md-6">
-        <figure>
-          <img src="{{image.fields.file.url}}" alt="{{image.fields.title}}" />
-          <figcaption>{{image.fields.title}}</figcaption>
-        </figure>
-      </li>
-	</ul>
+<!-- Home page feature images -->
+<div class="home-feature-images">
+  <div data-flex-slider="featureImages" data-show-title="false" data-slide="true"></div>
+</div>
+<div class="container">
+  <div class="col-md-12">
+    <div data-loading-indicator="about.intro"></div>
+    <h2 class="visually-hidden">About Stackduino</h2>
+    <div ng-bind-html="about.intro" class="bold"></div>
+    <h3>{{about.title}}</h3>
+    <div ng-bind-html="about.body_1"></div>
+    <div class="row">
+  	<ul class="plain">
+        <li data-ng-repeat="image in homeImages" class="col-md-6">
+          <figure>
+            <img src="{{image.fields.file.url}}" alt="{{image.fields.title}}" />
+            <figcaption>{{image.fields.title}}</figcaption>
+          </figure>
+        </li>
+  	</ul>
+    </div>
+    <div ng-bind-html="about.body_2"></div>
   </div>
-  <div ng-bind-html="about.body_2"></div>
 </div>
 

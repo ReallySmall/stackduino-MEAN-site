@@ -24,6 +24,6 @@
       <span class="fa fa-refresh fa-spin"> </span> Fetching issue status...
     </p>
     <canvas id="doughnut" class="chart chart-doughnut" data-ng-show="openIssues.length && closedIssues.length" chart-data="issueStats" chart-labels="issueLabels" chart-legend="true"></canvas>
-    <p data-ng-show="!openIssues.length">Currently no open issues for this board.</p>
-    <p data-ng-show="openIssues.length && !closedIssues.length">There are currently {{ openIssues.length }} issues open for this board.</p>
+    <p data-ng-show="issueStats && !openIssues.length">Currently no open issues for this board.</p>
+    <p data-ng-show="issueStats && openIssues.length && !closedIssues.length">There are currently {{ openIssues.length }} issues open for this board.</p>
 </section>

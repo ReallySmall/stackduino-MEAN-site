@@ -1,22 +1,31 @@
-<div class="content col-sm-12">      
+<div class="container">
+<div class="boards content col-sm-12">      
 	<h1>Boards</h1>
     <p>Stackduino boards, past and present</p>
   <div data-loading-indicator="boards" class="col-sm-12"></div>
-  <section data-ng-repeat="item in boards" class="board" data-ng-class="statuses[item.fields.status].htmlClass">
+  <section data-ng-repeat="item in boards | orderBy:'-version'" class="board" data-ng-class="statuses[item.status].htmlClass">
+    <div class="inset-wrapper">
     <div class="panel clearfix">
       <div class="row">
       <div class="col-sm-9">
-        <h2 class=""><a data-ng-href="{{ utils.createPath(item.fields.title) }}">{{ item.fields.title }}</a></h2>
-        <p>{{ item.fields.introduction }}</p>
-        <h4 data-ng-show="item.fields.github_url">
-          <a class="repository-link" ng-href="{{ item.fields.github_url }}">View on GitHub</a>
+        <h2 class=""><a data-ng-href="{{ utils.createPath(item.version) }}">{{ item.title }}</a></h2>
+        <div class="clearfix">
+          <p class="version-status" data-ng-class="statuses[item.status].htmlClass">
+            <span data-ng-class="statuses[item.status].icon"></span> 
+            <abbr title="{{statuses[item.status].description}}">{{statuses[item.status].title}}</abbr>
+          </p>
+        </div>
+        <p>{{ item.introduction }}</p>
+        <h4 data-ng-show="item.github_url">
+          <a class="repository-link" ng-href="{{ item.github_url }}">View on GitHub</a>
         </h4>
       </div>
-      <div class="col-sm-3">  
-        <img src="{{images[$index].fields.file.url}}" alt="{{images[$index].fields.title}}" />
-        <span class="fa fa-ban"></span>
+      <div class="col-sm-3">
+        <img src="{{getImageUrl(item.images[0].sys.id)}}" alt="{{images[$index].title}}" />
       </div>
+    </div>
     </div>
     </div>  
   </section>
+</div>
 </div>

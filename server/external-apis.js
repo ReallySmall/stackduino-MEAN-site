@@ -19,14 +19,17 @@ var externalApis = module.exports = {
           if(item.type === 'text' || 'photo' || 'video'){  
             //create a main-field subset of each article object to use in the article listing
             var article = {
-              title: item.title || item.caption,
+              title: item.title || item.caption || null,
               timestamp: item.timestamp,
               id: item.id,
               slug: item.slug,
               summary: item.summary,
               tags: item.tags
             };
-            index.articles.push(article);
+
+            if(article.title !== null){
+              index.articles.push(article);
+            }
             
             //build a list of unique tags to be used in automcompletes etc
             for(var j = 0; j < item.tags.length; j++){
@@ -66,6 +69,9 @@ var externalApis = module.exports = {
     boards: {
       file: './content-cache/board-versions/boards-index.json',
       boardFilesDir: './content-cache/board-versions/versions/'
+    },
+    mergeImages: function(){
+      
     }
   },
   readFile: function(file, res){

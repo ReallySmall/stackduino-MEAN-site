@@ -28,4 +28,9 @@ angular.module('stackduinoApp', [
     $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
       $anchorScroll();
     });
-  });
+  })
+  .filter('trusted', ['$sce', function ($sce) {
+    return function(url) {
+        return $sce.trustAsResourceUrl(url);
+    };
+}]);

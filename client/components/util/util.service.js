@@ -51,9 +51,9 @@ function UtilService($window) {
       return (origins.length >= 1);
     },
 
-    createPath: function(item){
-      item = item.replace(/ /g, '-').toLowerCase();
-      var url = window.location.href + '/' + item;
+    createPath: function(string){
+      //string = string.replace(/ /g, '-').toLowerCase();
+      var url = window.location.href + '/' + string;
       return url;
     },
 

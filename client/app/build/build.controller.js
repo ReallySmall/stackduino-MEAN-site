@@ -1,17 +1,16 @@
 'use strict';
 
 angular.module('stackduinoApp')
-  .controller('BuildCtrl', function ($scope, getArticles) {
+  .controller('BuildCtrl', function ($scope, getContent, getApiRoots) {
 
   	$scope.articles = [];
   	$scope.tags = [];
   	$scope.loading = true;
   	$scope.httpError = false;
-    	
-  	getArticles.index()
+
+  	getContent.get(getApiRoots.content + 'articles/index')
     .then(function(response) {
     	$scope.articles = response.data.articles;
-      console.log($scope.articles);
       $scope.tags = response.data.tags;
       $scope.httpError = false;
       $scope.loading = false;

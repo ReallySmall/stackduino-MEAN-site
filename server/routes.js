@@ -64,19 +64,36 @@ app.use(bodyParser.json());
       request(requestOpts, function(error, response, body) {
         if (!error && response.statusCode === 200) {
           
-          var jsonbody = JSON.parse(body);
-          var data = jsonbody.items;
+          var parsedBody = JSON.parse(body);
+
+          var data = parsedBody.items;
+          var assets = parsedBody.includes.Asset;
+
+          var index = {
+            boards: [],
+            assets: []
+          };
 
           for(var i = 0; i < data.length; i++){
 
-            //console.log(i);
-
             //create an abridged object for index page for each board
+            var indexBoard = {
+              version: data[i].fields.version,
+              title: data[i].fields.title,
+              status: data[i].fields.status,
+              introduction: data[i].fields.introduction,
+              images: data[i].fields.images || []
+            };
+
+            index.boards.push(indexBoard);
+            index.assets = assets;
+
             var board = {
-              id: data[i].fields.version
+              content: data[i],
+              assets: assets
             }
 
-            fs.writeFile(externalApis.contentful.boards.boardFilesDir + "/" + board.id + ".json", JSON.stringify(data[i]), function(err) {
+            fs.writeFile(externalApis.contentful.boards.boardFilesDir + "/" + indexBoard.version + ".json", JSON.stringify(board), function(err) {
               if(err) {
                 return console.log(err);
               }
@@ -85,9 +102,9 @@ app.use(bodyParser.json());
 
           }
 
-          externalApis.writeFile(externalApis.contentful.boards.file, body);
+          externalApis.writeFile(externalApis.contentful.boards.file, index);
 
-          res.send("done");
+          res.send(parsedBody);
             
         }
           
