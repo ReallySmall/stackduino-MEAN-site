@@ -27,7 +27,7 @@ angular.module('stackduinoApp')
                   after: function(){
                   }
         			});
-    			}, 50);
+    			}, 25);
         }, true);
       }
     };

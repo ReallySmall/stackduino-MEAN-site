@@ -26,12 +26,56 @@ angular.module('stackduinoApp')
 	    			icon: 'fa fa-ban'
 	    		}
 	    	]
+	    },
+	    socialLinks: function(){
+	    	return [
+				{
+				title: 'ReallySmall on GitHub',
+				href: 'https://github.com/ReallySmall',
+				icon: 'github-square'
+				},
+				{
+				title: 'ReallySmall on Flickr',
+				href: 'https://www.flickr.com/photos/reallysmall',
+				icon: 'flickr'
+				},
+				{
+				title: 'Contact',
+				href: 'mailto:reallysmallmacro@gmail.com',
+				icon: 'envelope-square'
+				}
+	    	]
+	    },
+	   	menuItems: function(){
+	    	return [
+			  {
+		        title: 'Boards',
+		        href: '/boards',
+		        icon: 'code-fork'
+		      },
+		      {
+		        title: 'Build',
+		        href: '/build',
+		        icon: 'gears'
+		      },
+		      {
+		        title: 'Gallery',
+		        href: '/gallery',
+		        icon: 'star'
+		      }
+	    	]
 	    }
 	};
 
     return {
       statuses: function() { 
       	return strings.statuses(); 
+      },
+      socialLinks: function() {
+      	return strings.socialLinks();
+      },
+      menuItems: function(){
+      	return strings.menuItems();
       }
     };
 

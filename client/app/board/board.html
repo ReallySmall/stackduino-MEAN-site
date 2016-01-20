@@ -17,12 +17,12 @@
       <section>
         <div class="js-flexslider">
           <ul class="slides">
-          <li data-ng-repeat="image in board.images">
+          <li data-ng-repeat="image in board.parsedImages">
             <figure>
-              <div class="img-placeholder" style="padding-bottom: {{(image.fields.file.details.image.height / image.fields.file.details.image.width) * 100}}%">
-                <img src="{{image.fields.file.url}}" alt="{{image.fields.title}}" />
+              <div class="img-placeholder" style="padding-bottom: {{(image.height / image.width) * 100}}%">
+                <img src="{{image.url}}" alt="{{image.title}}" />
               </div>
-              <figcaption>{{image.fields.title}}</figcaption>
+              <figcaption>{{imageInstanceData.title}}</figcaption>
             </figure>
           </li>
           </ul>

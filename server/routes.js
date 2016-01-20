@@ -34,6 +34,33 @@ app.use(bodyParser.json());
   app.use('/api/things', require('./api/thing'));
   app.use('/api/users', require('./api/user'));
 
+  // route to proxy calls to contentful api to get settings file
+  app.get('/api/content/settings', function(req, res){
+    externalApis.readFile(externalApis.contentful.settings.file, res);
+  });
+
+  // route to proxy calls to contentful api to get settings file
+  app.get('/api/content/settings/update', function(req, res){
+      
+      var query = '?access_token=' + apis.keys.contentful.api_key;
+      query += '&content_type=settings';
+
+      var requestOpts = {
+        url: apis.routes.contentful + apis.keys.contentful.spaceId + "/entries" + query,
+        method: "GET",
+        gzip: true,
+        timeout: 3000
+      };
+
+      request(requestOpts, function(error, response, body) {
+        if (!error && response.statusCode === 200) {
+          externalApis.writeFile(externalApis.contentful.settings.file, body);
+          res.send('{"status": "complete"}');
+        }
+      });
+
+  });
+
   // route to proxy calls to contentful api to get items of content type board
   app.get('/api/content/boards/index', function(req, res){
     externalApis.readFile(externalApis.contentful.boards.file, res);
@@ -104,7 +131,7 @@ app.use(bodyParser.json());
 
           externalApis.writeFile(externalApis.contentful.boards.file, index);
 
-          res.send(parsedBody);
+          res.send({"Status": "Complete"});
             
         }
           
@@ -148,7 +175,7 @@ app.use(bodyParser.json());
       console.log('Flickr gallery fetching from api');
       var query = '?api_key=' + apis.keys.flickr.api_key;
       query += '&method=flickr.photosets.getPhotos'
-      query += '&photoset_id=72157626574230146';
+      query += '&photoset_id=72157632341602394';
       query += '&format=json&nojsoncallback=1&extras=tags,owner_name,url_n,url_o'
 
       var requestOpts = {

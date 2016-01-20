@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('stackduinoApp')
-  .directive('github', function ($http, getApiRoots) {
+  .directive('github', function ($http, getApiRoots, getContent) {
     return {
       templateUrl: 'app/github/github.html',
       restrict: 'A',
@@ -19,28 +19,28 @@ angular.module('stackduinoApp')
                 var url_segments = scope.repoLink.split('/');
                 var repo_id = $.trim(url_segments[url_segments.length-1]);
 
-                $http.get(getApiRoots.gitHub + repo_id + "/commits?per_page=3", 
-                    {
-                        timeout: 5000
-                    }).success(function (data) {
-                        scope.commits = data;
+                getContent.get(getApiRoots.gitHub + repo_id + "/commits?per_page=3", 5000)
+                    .then(function (response) {
+                        scope.commits = response.data;
+                    }, function(){
+                        console.log('Request failed');
                     });
 
-                $http.get(getApiRoots.gitHub + repo_id + "/issues?state=all", 
-                    {
-                        timeout: 5000
-                    }).success(function (data) {
+                getContent.get(getApiRoots.gitHub + repo_id + "/issues?state=all", 5000)
+                    .then(function (response) {
                         scope.closedIssues = [];
                         scope.openIssues = [];
-                        for(var i = 0; i < data.length; i++){
-                        	if(data[i].state === 'open'){
-                        		scope.openIssues.push(data[i]);
+                        for(var i = 0; i < response.data.length; i++){
+                        	if(response.data[i].state === 'open'){
+                        		scope.openIssues.push(response.data[i]);
                         	} else {
-                        		scope.closedIssues.push(data[i]);
+                        		scope.closedIssues.push(response.data[i]);
                         	}
                         }
                         scope.issueStats = [scope.openIssues.length, scope.closedIssues.length];
                         scope.issueLabels = ['Open issues', 'Closed issues'];
+                    }, function(){
+                       console.log('Request failed'); 
                     });
 
             }

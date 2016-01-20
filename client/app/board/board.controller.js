@@ -5,46 +5,51 @@ angular.module('stackduinoApp')
 
     $scope.id = $stateParams.id;
     $scope.board = null;
+    $scope.images = null;
+    $scope.imageInstanceData = null;
     $scope.statuses = getBoards.statuses();
 
     getContent.get(getApiRoots.content + 'boards/id/' + $scope.id)
         .then(function(response) {
             $scope.board = response.data.content.fields;
-            console.log($scope.board);
-            $scope.images = response.data.assets;
-        });
 
-        if(!$scope.board){
-            //$location.path('/');
-        } else {
-
-    	//On document ready (move this into a directive)
-        angular.element(document).ready(function(){
-
-            //Get recent repository commits
-            if($scope.board.github_url){  
+            if(!$scope.board){
                 
-                var url_segments = $scope.board.github_url.split('/');
-                var repo_id = $.trim(url_segments[url_segments.length-1]);
+                $location.path('/'); // bounce back to homepage if no matching board
+            
+            } else {
+                
+                $scope.images = response.data.assets;
+                $scope.board.parsedImages = [];
 
-                $http.get(getApiRoots.gitHub + repo_id + "/commits?per_page=3", 
-                    {
-                        timeout: 5000
-                    }).then(function (response) {
-                        $scope.commits = response.data;
-                    });
+                for(var i = 0; i < $scope.board.images.length; i++){ // get related images
+                    $scope.board.parsedImages.push($scope.getImageData($scope.board.images[i].sys.id));
+                }
 
-                $http.get(getApiRoots.gitHub + repo_id + "/issues?per_page=3&state=open", 
-                    {
-                        timeout: 5000
-                    }).then(function (response) {
-                        $scope.issues = response.data;
-                    });
+                $(document).ready(function(){
+                    setTimeout(function(){
+                    $('.js-flexslider').flexslider();
+                }, 500);
+                });
 
             }
 
+        }, function(){
+            console.log("Failed to load board");
         });
 
+    $scope.getImageData = function(id){
+        var imgObj = {};
+        for(var i = 0; i < $scope.images.length; i++){
+          if(id === $scope.images[i].sys.id){
+            imgObj.url = $scope.images[i].fields.file.url;
+            imgObj.height = $scope.images[i].fields.file.details.image.height;
+            imgObj.width = $scope.images[i].fields.file.details.image.width;
+            imgObj.alt = $scope.images[i].fields.title;
+            break;
+          }
+        }
+        return imgObj;
     }
 
 });

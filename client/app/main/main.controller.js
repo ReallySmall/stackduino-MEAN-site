@@ -1,62 +1,24 @@
 'use strict';
 
 angular.module('stackduinoApp')
-  .controller('MainCtrl', function ($scope, $rootScope, getSettings, getWrapperContent, getFlickrImages, $location) {
+  .controller('MainCtrl', function ($scope, $rootScope, getStrings, getContent, $location) {
     $scope.siteTitle = '';
     $scope.siteDescription = '';
     $scope.socialLinks = [];
     $scope.footerLinks = [];
 
-    getSettings.getSiteSettings()
-      .success(function(data, status, headers) {
+    getContent.get('')
+      .then(function(response) {
 
         $scope.siteTitle = 'Stackduino';
         $scope.siteDescription = 'An Arduino compatible focus stacking controller for macro photography';
 
-    $scope.isCurrentPath = function (path) {
-      if(path === '/'){
-        return $location.path() === path; 
-      }
-      return $location.path().indexOf(path) === 0;
-    };
-
+      }, function(){
+        console.log("Request failed");
       });
 
-    $scope.socialLinks = [ //hardcoded for now, maybe get this from api in future
-      {
-        title: 'ReallySmall on GitHub',
-        href: 'https://github.com/ReallySmall',
-        icon: 'github-square'
-      },
-      {
-        title: 'ReallySmall on Flickr',
-        href: 'https://www.flickr.com/photos/reallysmall',
-        icon: 'flickr'
-      },
-      {
-        title: 'Contact',
-        href: 'mailto:reallysmallmacro@gmail.com',
-        icon: 'envelope-square'
-      }
-    ];
-
-    $scope.menuItems = [ //hardcoded for now, maybe get this from api in future
-      {
-        title: 'Boards',
-        href: '/boards',
-        icon: 'code-fork'
-      },
-      {
-        title: 'Build',
-        href: '/build',
-        icon: 'gears'
-      },
-      {
-        title: 'Gallery',
-        href: '/gallery',
-        icon: 'star'
-      },
-    ];
+    $scope.socialLinks = getStrings.socialLinks(); // social media links in header
+    $scope.menuItems = getStrings.menuItems(); // main menu bar
 
     $scope.isCurrentPath = function (path) {
       if(path === '/'){

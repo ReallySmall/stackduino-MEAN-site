@@ -60,6 +60,9 @@ var externalApis = module.exports = {
     }
   },
   contentful: {
+    settings: {
+      file: './content-cache/settings.json'
+    },
     pageWrapper: {
       file: './content-cache/page-wrapper.json'
     },
@@ -69,9 +72,6 @@ var externalApis = module.exports = {
     boards: {
       file: './content-cache/board-versions/boards-index.json',
       boardFilesDir: './content-cache/board-versions/versions/'
-    },
-    mergeImages: function(){
-      
     }
   },
   readFile: function(file, res){

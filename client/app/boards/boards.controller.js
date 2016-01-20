@@ -11,7 +11,7 @@ angular.module('stackduinoApp')
       $scope.boards = response.data.boards;
       $scope.images = response.data.assets;
     }, function(){
-    	console.log("Failed to load baords data");
+    	console.log("Failed to load boards data");
     });
 
   $scope.getImageUrl = function(id){

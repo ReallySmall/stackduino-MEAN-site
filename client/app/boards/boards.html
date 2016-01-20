@@ -7,8 +7,8 @@
     <div class="inset-wrapper">
     <div class="panel clearfix">
       <div class="row">
-      <div class="col-sm-9">
-        <h2 class=""><a data-ng-href="{{ utils.createPath(item.version) }}">{{ item.title }}</a></h2>
+      <div class="col-sm-10">
+        <h2 class=""><a data-ng-href="{{utils.createPath(item.version)}}">{{ item.title }}</a></h2>
         <div class="clearfix">
           <p class="version-status" data-ng-class="statuses[item.status].htmlClass">
             <span data-ng-class="statuses[item.status].icon"></span> 
@@ -16,11 +16,8 @@
           </p>
         </div>
         <p>{{ item.introduction }}</p>
-        <h4 data-ng-show="item.github_url">
-          <a class="repository-link" ng-href="{{ item.github_url }}">View on GitHub</a>
-        </h4>
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-2">
         <img src="{{getImageUrl(item.images[0].sys.id)}}" alt="{{images[$index].title}}" />
       </div>
     </div>
